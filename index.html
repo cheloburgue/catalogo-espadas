@@ -3,935 +3,105 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Catálogo</title>
+<title>Catálogo de espadas y sables</title>
 <style>
-  :root{--bg:#0f1114;--card:#181b20;--line:#262a31;--txt:#eceff3;--mut:#9aa3af;--acc:#e0a526;--ok:#25d366;--bad:#e5534b;--side:262px}
+  :root{--bg:#0f1114;--card:#181b20;--line:#262a31;--txt:#eceff3;--mut:#9aa3af;--acc:#e0a526}
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
   button{font-family:inherit}
-  .top{display:flex;align-items:center;gap:10px;padding:14px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
-  .top h1{margin:0;font-size:22px;flex:1}
-  .tbtn{background:var(--card);border:1px solid var(--line);color:var(--txt);border-radius:10px;padding:9px 14px;font-size:15px;cursor:pointer}
-  .tbtn b{color:var(--acc)}
-  .fbtn{display:none}
-  .layout{display:flex;max-width:1280px;margin:auto;align-items:flex-start}
-  aside{width:var(--side);flex:0 0 var(--side);padding:16px;position:sticky;top:60px;max-height:calc(100vh - 60px);overflow:auto}
-  aside h3{margin:18px 0 8px;font-size:12px;text-transform:uppercase;letter-spacing:.8px;color:var(--mut)}
-  aside h3:first-child{margin-top:0}
-  .q,.inp{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:15px}
-  .opt{display:flex;align-items:center;gap:9px;padding:6px 2px;cursor:pointer;font-size:15px;user-select:none}
-  .opt input{width:18px;height:18px;accent-color:var(--acc);margin:0}
-  .opt .n{margin-left:auto;color:var(--mut);font-size:13px}
-  .sub{padding-left:26px}
-  select{width:100%;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:15px}
-  .desc{margin:10px 0 4px;font-size:14px;line-height:1.5;color:var(--txt)}
-  #adminRoot .csvov{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:900;display:none;align-items:flex-start;justify-content:center;padding:30px 12px;overflow:auto}
-  #adminRoot .csvov.on{display:flex}
-  #adminRoot .csvbox{background:var(--bg);border:1px solid var(--line);border-radius:12px;padding:20px;width:min(900px,100%)}
-  #adminRoot .csvbox h2{margin:0 0 6px}
-  #adminRoot tr.skip td{opacity:.4;text-decoration:line-through}
-  #adminRoot textarea.ds{width:200px;min-height:44px;font:inherit;font-size:12px;background:var(--card,#16191f);color:var(--txt);border:1px solid var(--line);border-radius:6px;padding:4px}
-  #adminRoot .phs{display:flex;gap:4px;align-items:center;flex-wrap:wrap;min-width:120px}
-  #adminRoot .ph{position:relative}
-  #adminRoot .ph img{width:34px;height:34px;object-fit:cover;border-radius:5px;display:block}
-  #adminRoot .ph b{position:absolute;top:-5px;right:-5px;background:#c0392b;color:#fff;border-radius:50%;width:15px;height:15px;font-size:11px;line-height:15px;text-align:center;cursor:pointer}
-  .pfoot{text-align:center;padding:28px 0 60px;color:var(--mut);font-size:12px}
-  .pfoot button{background:none;border:0;cursor:pointer;color:rgba(255,255,255,.07);font-size:11px;padding:8px 14px;transition:color .4s}
-  .pfoot button:hover{color:rgba(255,255,255,.45)}
-  .clear{position:sticky;bottom:0;z-index:2;margin-top:16px;width:100%;padding:11px;border-radius:10px;border:1px solid #eab308;background:#facc15;color:#111;font-weight:700;cursor:pointer;font-size:14px;box-shadow:0 -10px 14px var(--bg)}
-  .clear:hover{background:#fde047}
-  main{flex:1;min-width:0;padding:16px}
+  .top{display:flex;align-items:center;gap:12px;padding:14px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5}
+  .top h1{margin:0;font-size:22px;white-space:nowrap}
+  .q{flex:1;min-width:0;max-width:340px;margin-left:auto;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:15px}
+  main{max-width:1280px;margin:auto;padding:16px}
   .count{color:var(--mut);font-size:14px;margin-bottom:12px}
-  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px}
-  .card{position:relative;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .15s,border-color .15s}
-  .card:hover{transform:translateY(-3px);border-color:var(--acc)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;cursor:pointer;transition:transform .15s,border-color .15s;padding:0;text-align:left;color:inherit}
+  .card:hover,.card:focus-visible{transform:translateY(-3px);border-color:var(--acc);outline:none}
+  .card .ph{position:relative}
   .card img{display:block;width:100%;aspect-ratio:4/3;object-fit:cover;background:#000}
+  .card .n{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.7);font-size:12px;padding:2px 8px;border-radius:99px}
   .card .b{padding:10px 12px 12px}
-  .card.sold img{opacity:.45}
-  .tag{position:absolute;top:8px;left:8px;background:#b3261e;color:#fff;font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px}
-  .code{font-weight:700;letter-spacing:.3px;font-size:14px}
+  .code{font-weight:700;font-size:14px}
   .muted{color:var(--mut);font-size:13px}
-  .chips{margin:6px 0;display:flex;gap:5px;flex-wrap:wrap}
-  .chip{font-size:12px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--mut)}
-  .chip.ram{color:var(--acc);border-color:var(--acc)}
-  .price{color:var(--acc);font-weight:600;font-size:14px}
   .empty{color:var(--mut);padding:30px 0}
-  .ov{position:fixed;inset:0;background:rgba(0,0,0,.8);display:none;align-items:flex-end;justify-content:center;z-index:20}
+  .ov{position:fixed;inset:0;background:rgba(0,0,0,.85);display:none;align-items:flex-end;justify-content:center;z-index:20}
   .ov.on{display:flex}
-  .sheet{background:var(--bg);width:100%;max-width:720px;max-height:94vh;overflow:auto;border-radius:18px 18px 0 0;border:1px solid var(--line)}
+  .sheet{background:var(--bg);width:100%;max-width:820px;max-height:95vh;overflow:auto;border-radius:18px 18px 0 0;border:1px solid var(--line)}
   @media(min-width:900px){.ov{align-items:center}.sheet{border-radius:18px}}
-  .gal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;background:#000}
-  .gal img{flex:0 0 100%;width:100%;max-height:62vh;object-fit:contain;scroll-snap-align:center}
-  .pad{padding:14px 16px 20px}
-  .row{display:flex;justify-content:space-between;align-items:center;gap:10px}
+  .head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:12px 16px}
+  .head h2{margin:0;font-size:18px}
   .x{background:none;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:6px 12px;cursor:pointer;font-size:14px}
-  .mods{display:grid;gap:8px;margin-top:12px}
-  .mrow{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 10px}
-  .mrow .t{flex:1;min-width:0}
-  .mrow .t b{display:block}
-  .btn{border:0;border-radius:9px;padding:9px 13px;font-weight:700;cursor:pointer;font-size:14px;text-decoration:none;display:inline-block;text-align:center}
-  .btn.add{background:var(--acc);color:#111}
-  .btn.add:disabled{background:#3a3f47;color:#888;cursor:not-allowed}
-  .btn.wa{background:none;border:1px solid var(--ok);color:var(--ok)}
-  .btn.send{background:var(--ok);color:#fff;width:100%;padding:13px;font-size:16px}
-  .btn.send:disabled{background:#2c3a32;color:#7a8a80;cursor:not-allowed}
-  .hint{color:var(--mut);font-size:13px;margin-top:10px}
-  /* carrito */
-  .fab{position:fixed;right:16px;bottom:16px;z-index:15;background:var(--acc);color:#111;border:0;border-radius:99px;padding:13px 18px;font-weight:800;font-size:15px;cursor:pointer;box-shadow:0 6px 20px rgba(0,0,0,.5)}
-  .fab span{background:#111;color:var(--acc);border-radius:99px;padding:2px 8px;margin-left:6px;font-size:13px}
-  .cart{position:fixed;top:0;right:0;bottom:0;width:min(100vw,400px);background:var(--bg);border-left:1px solid var(--line);z-index:40;display:flex;flex-direction:column;transform:translateX(102%);transition:transform .22s}
-  body.copen .cart{transform:none}
-  .cscrim{display:none}
-  body.copen .cscrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:35}
-  .cart header{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line)}
-  .cart header h2{margin:0;font-size:19px}
-  .citems{flex:1;overflow:auto;padding:10px 16px}
-  .ci{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
-  .ci img{width:64px;height:64px;object-fit:cover;border-radius:8px;background:#000}
-  .ci .m{flex:1;min-width:0}
-  .ci .m .code{font-size:14px}
-  .qty{display:inline-flex;align-items:center;gap:8px;margin-top:6px}
-  .qty button{width:28px;height:28px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:16px;cursor:pointer}
-  .ci .p{text-align:right;font-size:14px;color:var(--acc);font-weight:600;white-space:nowrap}
-  .ci .rm{background:none;border:0;color:var(--mut);cursor:pointer;font-size:18px}
-  .cfoot{padding:12px 16px 16px;border-top:1px solid var(--line);display:grid;gap:10px}
-  .tot{display:flex;justify-content:space-between;font-size:17px;font-weight:700}
-  .tot small{font-weight:400;color:var(--mut)}
-  .pay{display:flex;gap:8px}
-  .pay label{flex:1;border:1px solid var(--line);border-radius:10px;padding:9px;text-align:center;cursor:pointer;font-size:14px}
-  .pay input{display:none}
-  .pay label.on{border-color:var(--acc);color:var(--acc);font-weight:700}
-  .toast{position:fixed;left:50%;bottom:80px;transform:translateX(-50%);background:#222831;border:1px solid var(--line);padding:10px 16px;border-radius:10px;z-index:60;display:none;max-width:90vw}
-  .scrim{display:none}
-  @media(max-width:899px){
-    .fbtn{display:block}
-    aside{position:fixed;left:0;top:0;bottom:0;max-height:none;width:min(86vw,320px);background:var(--bg);border-right:1px solid var(--line);z-index:30;transform:translateX(-102%);transition:transform .2s}
-    body.fopen aside{transform:none}
-    body.fopen .scrim{display:block;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:25}
-    .grid{grid-template-columns:repeat(2,1fr);gap:10px}
-    main{padding:12px}
-    .aclose{display:block!important}
-  }
-  .aclose{display:none;margin-bottom:12px;width:100%;padding:10px;border-radius:10px;border:0;background:var(--acc);color:#111;font-weight:700;font-size:15px;cursor:pointer}
-
-  #adminRoot{display:none;min-height:100vh}
-  body.adminmode #adminRoot{display:block}
-  body.adminmode .pfoot,body.adminmode .top,body.adminmode .layout,body.adminmode .fab,body.adminmode .cart,body.adminmode .cscrim,body.adminmode .scrim,body.adminmode #ov,body.adminmode .toast{display:none!important}
-
-  #adminRoot *{box-sizing:border-box}
-  #adminRoot{margin:0;background:var(--bg);color:var(--txt);font:15px/1.4 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
-  #adminRoot button,#adminRoot input,#adminRoot select{font-family:inherit;font-size:14px}
-  #adminRoot input,#adminRoot select{padding:7px 9px;border-radius:8px;border:1px solid var(--line);background:var(--card);color:var(--txt)}
-  #adminRoot .atop{display:flex;align-items:center;gap:10px;padding:12px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:var(--bg);z-index:5;flex-wrap:wrap}
-  #adminRoot .atop h1{margin:0;font-size:19px;flex:1}
-  #adminRoot .tabs{display:flex;gap:6px;padding:12px 16px 0}
-  #adminRoot .tab{background:var(--card);border:1px solid var(--line);color:var(--mut);border-radius:10px 10px 0 0;padding:9px 16px;cursor:pointer}
-  #adminRoot .tab.on{color:var(--acc);border-color:var(--acc);border-bottom-color:var(--bg);background:var(--bg)}
-  #adminRoot .pane{display:none;padding:14px 16px 40px}
-  #adminRoot .pane.on{display:block}
-  #adminRoot .bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
-  #adminRoot .btn{border:0;border-radius:8px;padding:8px 13px;font-weight:700;cursor:pointer;background:var(--acc);color:#111}
-  #adminRoot .btn.g{background:none;border:1px solid var(--line);color:var(--txt);font-weight:500}
-  #adminRoot .btn.d{background:none;border:1px solid var(--bad);color:var(--bad);font-weight:500;padding:5px 9px}
-  #adminRoot .wrap{overflow:auto;border:1px solid var(--line);border-radius:12px}
-  #adminRoot table{border-collapse:collapse;width:100%;min-width:760px}
-  #adminRoot th,#adminRoot td{padding:8px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;font-size:14px}
-  #adminRoot th{position:sticky;top:0;background:#14171b;color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.6px;white-space:nowrap}
-  #adminRoot td img{width:54px;height:42px;object-fit:cover;border-radius:6px;background:#000;display:block}
-  #adminRoot td input[type=number]{width:96px}
-  #adminRoot td input.nm{width:170px}
-  #adminRoot .mini{display:flex;gap:5px;align-items:center;margin:2px 0}
-  #adminRoot .mini b{width:18px;color:var(--acc)}
-  #adminRoot .mini input{width:84px}
-  #adminRoot .off{opacity:.45}
-  #adminRoot .sv{color:var(--ok);font-size:12px;opacity:0;transition:opacity .3s}
-  #adminRoot .sv.on{opacity:1}
-  #adminRoot .login{max-width:360px;margin:12vh auto;padding:22px;background:var(--card);border:1px solid var(--line);border-radius:14px;display:grid;gap:10px}
-  #adminRoot .login h2{margin:0 0 4px}
-  #adminRoot .err{color:var(--bad);font-size:13px;min-height:16px}
-  #adminRoot .cfg{display:grid;gap:12px;max-width:430px}
-  #adminRoot .cfg label{display:grid;gap:4px;color:var(--mut);font-size:13px}
-  #adminRoot .cfg input{color:var(--txt)}
-  #adminRoot .badge{padding:2px 9px;border-radius:99px;font-size:12px;font-weight:700}
-  #adminRoot .b-t{background:#3b2f10;color:var(--acc)}
-  #adminRoot .b-s{background:#123222;color:var(--ok)}
-  #adminRoot pre{white-space:pre-wrap;margin:0;font:inherit;font-size:13px;color:var(--mut)}
-  #adminRoot .note{color:var(--mut);font-size:13px;margin:0 0 12px;max-width:760px}
-
-  /* ===== REDISEÑO ===== */
-  :root{--bg:#15180f;--card:#1e2217;--card2:#262b1d;--line:#333a28;--txt:#ece8d8;--mut:#a09d88;--acc:#cfa44a;--acc2:#e8c46f;--ok:#2fbf6b;--bad:#e5534b;--side:250px;--hh:62px}
-  body{font-family:"Segoe UI",system-ui,-apple-system,Roboto,Helvetica,Arial,sans-serif;background:var(--bg) radial-gradient(1200px 500px at 70% -10%,#262c18 0,transparent 60%) no-repeat}
-  :focus-visible{outline:2px solid var(--acc2);outline-offset:2px}
-  .top{height:var(--hh);padding:0 18px;gap:14px;background:rgba(21,24,15,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
-  .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--txt);flex:0 0 auto}
-  .brand svg{width:38px;height:38px;display:block}
-  .brand span{font-weight:800;font-size:19px;letter-spacing:.14em;text-transform:uppercase}
-  .srch{flex:1;max-width:520px;margin:0 auto;position:relative}
-  .srch .q{padding:10px 14px 10px 38px;border-radius:99px;background:var(--card);font-size:15px}
-  .srch svg{position:absolute;left:13px;top:50%;transform:translateY(-50%);width:16px;height:16px;stroke:var(--mut);fill:none;stroke-width:2;pointer-events:none}
-  .tbtn{border-radius:99px;font-weight:600;white-space:nowrap}
-  .cbtn{background:var(--acc);border-color:var(--acc);color:#1a1604;display:inline-flex;gap:8px;align-items:center}
-  .cbtn:hover{background:var(--acc2)}
-  .cbtn b{background:#1a1604;color:var(--acc2);border-radius:99px;min-width:22px;padding:0 7px;font-size:13px;line-height:22px;text-align:center}
-  .hero{max-width:1280px;margin:auto;padding:30px 24px 10px}
-  .hero h2{margin:0;font-size:clamp(20px,6vw,44px);line-height:1.1;font-weight:800;letter-spacing:-.025em;white-space:nowrap}
-  .hero p{margin:12px 0 0;color:var(--mut);font-size:16px;max-width:52ch}
-  .steps{display:flex;gap:22px;flex-wrap:wrap;margin-top:18px;font-size:14px;color:var(--txt)}
-  .steps span{display:flex;align-items:center;gap:8px}
-  .steps i{font-style:normal;width:22px;height:22px;border-radius:50%;background:var(--acc);color:#1a1604;font-weight:800;font-size:12px;display:grid;place-items:center}
-  .cbar{position:sticky;top:var(--hh);z-index:6;background:rgba(21,24,15,.94);backdrop-filter:blur(8px);border-bottom:1px solid var(--line);margin-top:14px}
-  .cbar .in{max-width:1280px;margin:auto;display:flex;gap:8px;overflow-x:auto;padding:10px 24px;scrollbar-width:none}
-  .cbar .in::-webkit-scrollbar{display:none}
-  .tab2{flex:0 0 auto;border:1px solid var(--line);background:var(--card);color:var(--txt);border-radius:99px;padding:8px 16px;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;gap:8px;align-items:center}
-  .tab2 small{color:var(--mut);font-weight:500;font-size:12px}
-  .tab2:hover{border-color:var(--acc)}
-  .tab2.on{background:var(--acc);border-color:var(--acc);color:#1a1604}
-  .tab2.on small{color:#4a3d12}
-  aside{top:calc(var(--hh) + 56px);max-height:calc(100vh - var(--hh) - 56px);padding:18px 14px 18px 24px}
-  aside h3{font-size:12px;letter-spacing:.04em;text-transform:none;color:var(--acc);font-weight:700;margin:20px 0 8px}
-  main{padding:18px 24px 40px}
-  .tool{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
-  .tool .count{margin:0;font-size:14px}
-  .tool .count b{color:var(--txt)}
-  #pills{display:flex;gap:6px;flex-wrap:wrap;flex:1;min-width:0}
-  .pill{border:1px solid var(--acc);background:rgba(207,164,74,.1);color:var(--acc2);border-radius:99px;padding:3px 6px 3px 11px;font-size:13px;cursor:pointer;display:inline-flex;gap:6px;align-items:center}
-  .pill:hover{background:rgba(207,164,74,.22)}
-  .pill u{text-decoration:none;opacity:.8;font-size:15px;line-height:1}
-  .tool label{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--mut)}
-  .tool select{width:auto;padding:8px 10px;border-radius:99px}
-  .grid{grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:18px}
-  .card{border-radius:6px 18px 6px 18px;background:var(--card);transition:transform .18s,border-color .18s,box-shadow .18s}
-  .card:hover{transform:translateY(-4px);border-color:var(--acc);box-shadow:0 14px 28px -14px rgba(0,0,0,.8)}
-  .card:focus-visible{outline-offset:3px}
-  .card img{aspect-ratio:1/1;background:#0c0e08}
-  .card .b{padding:12px 14px 14px}
-  .card .code{font-size:15px;letter-spacing:.04em}
-  .card .price{font-size:16px;font-weight:700;margin-top:6px}
-  .card .price.ask{color:var(--mut);font-weight:500;font-size:14px}
-  .card .more{margin-top:10px;display:block;text-align:center;border:1px solid var(--line);border-radius:99px;padding:6px;font-size:13px;color:var(--txt);font-weight:600}
-  .card:hover .more{background:var(--acc);border-color:var(--acc);color:#1a1604}
-  .badges{position:absolute;top:10px;left:10px;display:flex;gap:6px;flex-wrap:wrap;z-index:1}
-  .badges .tag{position:static}
-  .tag.ram{background:var(--acc);color:#1a1604}
-  .tag.mods{background:rgba(12,14,8,.82);color:var(--txt);border:1px solid var(--line)}
-  .card .nph{position:absolute;right:10px;top:10px;background:rgba(12,14,8,.82);color:var(--txt);font-size:12px;padding:3px 8px;border-radius:99px;border:1px solid var(--line)}
-  .empty{text-align:center;padding:50px 10px}
-  .empty b{display:block;color:var(--txt);font-size:18px;margin-bottom:6px}
-  .empty button{margin-top:14px}
-  .btn.add{background:var(--acc)}
-  .sheet{border-radius:20px 20px 0 0;max-width:760px}
-  .sheet .pad{padding:16px 20px 24px}
-  .nav2{display:flex;gap:6px}
-  .nav2 .x{padding:6px 11px}
-  .gal{position:relative}
-  .dots{display:flex;gap:6px;justify-content:center;padding:8px;background:#000}
-  .dots i{width:7px;height:7px;border-radius:50%;background:#555}
-  .dots i.on{background:var(--acc)}
-  .pfoot{border-top:1px solid var(--line);margin-top:20px;padding:30px 16px 60px;background:#10130b}
-  .pfoot .fw{display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:14px;color:var(--mut)}
-  .pfoot .fw a{color:var(--ok);font-weight:700;text-decoration:none}
-  .totop{position:fixed;left:16px;bottom:16px;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--card);color:var(--txt);font-size:18px;cursor:pointer;z-index:14;display:none}
-  body.scrolled .totop{display:block}
-  @media(min-width:900px){.fab{display:none!important}.aclose{display:none!important}}
-  @media(max-width:899px){
-    :root{--hh:56px}
-    .brand span{font-size:16px}.brand svg{width:32px;height:32px}
-    .srch{max-width:none;flex:1;margin:0;min-width:0}
-    .top{flex-wrap:nowrap;padding:0 10px;gap:8px}
-    .top{position:sticky}
-    .cbtn{display:none}
-    .hero{padding:20px 14px 4px}.hero p{font-size:14px}.steps{gap:10px 16px;font-size:13px}
-    .cbar .in{padding:10px 14px}
-    main{padding:12px 12px 30px}
-    .grid{grid-template-columns:repeat(2,1fr);gap:10px}
-    .card{border-radius:5px 14px 5px 14px}
-    .card .b{padding:9px 10px 11px}.card .more{display:none}
-    .tool select{max-width:150px}
-    .totop{bottom:76px}
-    aside{top:0;max-height:none;padding:16px}
-  }
-  @media(max-width:560px){.brand span{display:none}}
-  @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
-  body.adminmode .hero,body.adminmode .cbar,body.adminmode .totop{display:none!important}
+  .gal{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;background:#000}
+  .gal img{flex:0 0 100%;width:100%;max-height:70vh;object-fit:contain;scroll-snap-align:center}
+  .thumbs{display:flex;gap:6px;padding:10px 16px 16px;overflow-x:auto}
+  .thumbs img{width:64px;height:64px;object-fit:cover;border-radius:6px;border:2px solid transparent;cursor:pointer;flex:none;opacity:.7}
+  .thumbs img.on{border-color:var(--acc);opacity:1}
+  .pos{color:var(--mut);font-size:13px;padding:0 16px 4px}
 </style>
 </head>
 <body>
-<script>if(location.hash==="#admin")document.body.classList.add("adminmode");</script>
-<header class="top"><a class="brand" href="#" id="brand" aria-label="Inicio"><svg viewBox="0 0 40 40" aria-hidden="true"><rect x="1" y="1" width="38" height="38" rx="5" ry="14" fill="#cfa44a"/><path d="M9 31C13 22 19 13 29 8c-1 9-7 18-16 24z" fill="#15180f"/><path d="M11 30l10-9" stroke="#cfa44a" stroke-width="1.6" stroke-linecap="round"/><circle cx="12" cy="29" r="2.2" fill="#cfa44a" stroke="#15180f" stroke-width="1.4"/></svg><span id="tit">Catálogo</span></a><div class="srch"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input class="q" id="q" type="search" placeholder="Buscar por código o nombre" autocomplete="off" aria-label="Buscar"></div><button class="tbtn fbtn" id="fbtn">Filtros <b id="fn"></b></button><button class="tbtn cbtn" id="cbtn">Mi pedido <b id="cbn">0</b></button></header>
-<section class="hero" id="hero"><h2>Navajas y cuchillos tácticos</h2><p>Cuchillería en general, hachas y dagas. Elegí tus productos, armá tu pedido y cerralo directo por WhatsApp.</p><div class="steps"><span><i>1</i>Elegí tus productos</span><span><i>2</i>Agregalos a Mi pedido</span><span><i>3</i>Enviá el pedido por WhatsApp</span></div></section>
-<nav class="cbar" id="cbar" aria-label="Categorías"><div class="in" id="tabs"></div></nav>
-<div class="layout">
-  <aside id="aside">
-    <button class="aclose" id="aclose">Ver resultados</button>
-    <h3>Categorías</h3><div id="cats"></div>
-    <h3>Ediciones</h3><div id="lineas"></div>
-    <h3>Precio</h3>
-    <label class="opt"><input type="checkbox" id="conprecio"> Solo con precio cargado</label>
-    <label class="opt"><input type="checkbox" id="stockonly"> Solo con stock</label>
-    <button class="clear" id="clear">Limpiar filtros</button>
-  </aside>
-  <main>
-    <div class="tool"><div class="count" id="count"></div><div id="pills"></div>
-      <label>Ordenar<select id="orden"><option value="cod">Por código</option><option value="pa">Precio: menor a mayor</option><option value="pd">Precio: mayor a menor</option></select></label></div>
-    <div class="grid" id="grid"></div>
-    <div class="empty" id="empty" hidden><b>No encontramos productos con esos filtros</b>Probá con otra búsqueda o quitá algún filtro.<br><button class="btn add" id="clear2">Ver todo el catálogo</button></div>
-  </main>
+<div class="top">
+  <h1>Espadas y sables</h1>
+  <input class="q" id="q" type="search" placeholder="Buscar" aria-label="Buscar">
 </div>
-<footer class="pfoot"><div class="fw"><span id="ftit">Catálogo</span><span>Consultas y pedidos por</span><a id="fwa" target="_blank" rel="noopener" href="#">WhatsApp</a></div><button id="admtrig" title="Acceso" aria-label="Acceso">⚙</button></footer>
-<button class="totop" id="totop" aria-label="Volver arriba">↑</button>
-<div class="scrim" id="scrim"></div>
-<div class="ov" id="ov"><div class="sheet" id="sheet"></div></div>
-
-<button class="fab" id="fab">🛒 Mi pedido <span id="fabn">0</span></button>
-<div class="cscrim" id="cscrim"></div>
-<div class="cart" id="cart">
-  <header><h2>Mi pedido</h2><button class="x" id="cclose">Cerrar</button></header>
-  <div class="citems" id="citems"></div>
-  <div class="cfoot">
-    <div class="pay" id="pay"></div>
-    <input class="inp" id="cname" placeholder="Tu nombre (opcional)">
-    <input class="inp" id="cnote" placeholder="Nota para el pedido (opcional)">
-    <div class="tot"><span>Total</span><span id="ctot"></span></div>
-    <div class="hint" id="cinfo" style="margin:0"></div>
-    <button class="btn send" id="send">Enviar pedido por WhatsApp</button>
-    <button class="x" id="cempty">Vaciar pedido</button>
+<main>
+  <div class="count" id="count"></div>
+  <div class="grid" id="grid"></div>
+</main>
+<div class="ov" id="ov">
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mt">
+    <div class="head"><h2 id="mt"></h2><button class="x" id="close">Cerrar</button></div>
+    <div class="gal" id="gal"></div>
+    <div class="pos" id="pos"></div>
+    <div class="thumbs" id="thumbs"></div>
   </div>
 </div>
-<div class="toast" id="toast"></div>
-<div id="adminRoot">
-<div id="app" style="display:none">
-  <div class="atop"><h1>Panel admin</h1><a class="btn g" href="#" id="gocat" style="text-decoration:none">Ver catálogo</a><button class="btn g" id="logout">Salir</button></div>
-  <div class="tabs"><button class="tab on" data-t="prod">Productos</button><button class="tab" data-t="ped">Pedidos <span id="pcount"></span></button><button class="tab" data-t="cfg">Configuración</button></div>
-
-  <section class="pane on" id="p-prod">
-    <p class="note" id="modeinfo"></p><p class="note">Los cambios se guardan solos al editar cada campo. <b>Stock vacío</b> = sin control de stock. Desmarcá <b>Visible</b> para ocultar un producto del catálogo.</p>
-    <div class="bar">
-      <input id="aq" placeholder="Buscar código o nombre" style="width:220px">
-      <select id="acat"><option value="">Todas las categorías</option><option>Navajas</option><option>Chicos</option><option>Medianos</option><option>Grandes</option><option>Hachas</option><option>Dagas</option></select>
-      <label><input type="checkbox" id="asin"> Solo sin precio</label>
-      <span id="acount" class="note" style="margin:0"></span><span class="sv" id="sv">✓ guardado</span>
-      <span style="flex:1"></span>
-      <button class="btn g" id="syncsb" style="display:none">Sincronizar productos con Supabase</button>
-      <button class="btn" id="csvopen">Carga masiva (CSV)</button>
-      <button class="btn g" id="expjs">Exportar precios (precios.json)</button>
-    </div>
-    <div class="wrap"><table><thead><tr><th></th><th>Código</th><th>Categoría</th><th>Nombre</th><th>Descripción</th><th>Precio</th><th>Stock</th><th>Visible</th><th>Modelos (precio / stock)</th><th>Link Drive</th><th>Fotos extra</th></tr></thead><tbody id="ptb"></tbody></table></div>
-  </section>
-
-  <section class="pane" id="p-ped">
-    <p class="note">Los pedidos aparecen cuando alguien envía su carrito por WhatsApp. Con Supabase conectado se ven los pedidos de todos los clientes.</p>
-    <div class="bar">
-      <select id="pest"><option value="">Todos los estados</option></select>
-      <span id="pcnt" class="note" style="margin:0"></span><span style="flex:1"></span>
-      <button class="btn g" id="expcsv">Exportar CSV</button>
-    </div>
-    <div class="wrap"><table><thead><tr><th>Orden</th><th>Fecha</th><th>Detalle</th><th>Total</th><th>Pago</th><th>Estado</th><th>Dirección de entrega</th><th></th></tr></thead><tbody id="ptb2"></tbody></table></div>
-  </section>
-
-  <section class="pane" id="p-cfg">
-    <div class="cfg">
-      <label>WhatsApp del negocio (código de país, sin + ni espacios, ej. 5491122334455)<input id="c-wa"></label>
-      <label>Título del catálogo<input id="c-tit"></label>
-      <label>Recargo de tarjeta (%) — 0 desactiva la opción de tarjeta<input id="c-int" type="number" step="0.1" min="0"></label>
-      <label>IVA sobre el recargo (%)<input id="c-iva" type="number" step="0.1" min="0"></label>
-      <div><button class="btn" id="c-save">Guardar configuración</button> <span class="sv" id="c-sv">✓ guardado</span></div>
-      <hr style="border:0;border-top:1px solid var(--line);width:100%">
-      <label>Cambiar contraseña del panel<input id="c-pw" type="password" placeholder="Nueva contraseña (mín. 6 caracteres)"></label>
-      <div><button class="btn g" id="c-pwsave">Cambiar contraseña</button> <span class="err" id="c-pwerr"></span></div>
-      <hr style="border:0;border-top:1px solid var(--line);width:100%">
-      <div><button class="btn d" id="c-reset">Descartar todas las ediciones de productos</button></div>
-    </div>
-  </section>
-</div>
-
-<input type="file" id="phfile" accept="image/jpeg,image/png,image/webp" multiple style="display:none">
-<div class="csvov" id="csvov"><div class="csvbox">
-  <h2>Carga masiva desde CSV</h2>
-  <p class="note">Columnas: <b>codigo</b>, <b>descripcion</b>, <b>precio</b>, <b>link_drive</b> (también sirve <b>nombre</b>). Solo se actualizan códigos que ya existen; los campos vacíos no pisan lo cargado. Acepta separador coma o punto y coma.</p>
-  <div class="bar"><input type="file" id="csvfile" accept=".csv,text/csv"><button class="btn g" id="csvtpl">Descargar plantilla con los códigos</button></div>
-  <div class="wrap" style="max-height:320px"><table id="csvprev"></table></div>
-  <div class="bar"><button class="btn" id="csvgo" disabled>Importar</button><button class="btn g" id="csvx">Cerrar</button><span class="note" id="csvmsg" style="margin:0"></span></div>
-</div></div>
-<div class="login" id="login" style="display:none">
-  <h2 id="lt">Ingresar</h2><div id="ls" class="note" style="margin:0"></div>
-  <input type="password" id="lpw" placeholder="Contraseña"><input type="password" id="lpw2" placeholder="Repetí la contraseña" style="display:none">
-  <button class="btn" id="lgo">Entrar</button><div class="err" id="lerr"></div>
-</div>
-</div>
-
+<script src="data.js"></script>
 <script>
-/*DATA_START*/window.CATALOGO = {"titulo": "Catálogo", "whatsapp": "5491158237678", "moneda": "$", "productos": [{"codigo": "NAV-0001", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["NAV-0001_1"]}, {"codigo": "NAV-0002", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["NAV-0002_1"]}, {"codigo": "NAV-0003", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0003_1"]}, {"codigo": "NAV-0004", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}, {"letra": "E", "precio": null, "stock": null}], "fotos": ["NAV-0004_1"]}, {"codigo": "NAV-0005", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}, {"letra": "E", "precio": null, "stock": null}], "fotos": ["NAV-0005_1"]}, {"codigo": "NAV-0006", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0006_1"]}, {"codigo": "NAV-0007", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0007_1"]}, {"codigo": "NAV-0008", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}, {"letra": "E", "precio": null, "stock": null}], "fotos": ["NAV-0008_1"]}, {"codigo": "NAV-0009", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}], "fotos": ["NAV-0009_1"]}, {"codigo": "NAV-0010", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0010_1"]}, {"codigo": "NAV-0011", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0011_1"]}, {"codigo": "NAV-0012", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0012_1"]}, {"codigo": "NAV-0013", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0013_1"]}, {"codigo": "NAV-0014", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}], "fotos": ["NAV-0014_1"]}, {"codigo": "NAV-0015", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}, {"letra": "E", "precio": null, "stock": null}, {"letra": "F", "precio": null, "stock": null}, {"letra": "G", "precio": null, "stock": null}], "fotos": ["NAV-0015_1"]}, {"codigo": "NAV-0016", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0016_1", "NAV-0016_2", "NAV-0016_3", "NAV-0016_4", "NAV-0016_5"]}, {"codigo": "NAV-0017", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0017_1"]}, {"codigo": "NAV-0018", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}], "fotos": ["NAV-0018_1"]}, {"codigo": "NAV-0019", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0019_1"]}, {"codigo": "NAV-0020", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0020_1"]}, {"codigo": "NAV-0021", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}, {"letra": "E", "precio": null, "stock": null}], "fotos": ["NAV-0021_1", "NAV-0021_2"]}, {"codigo": "NAV-0022", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}, {"letra": "E", "precio": null, "stock": null}, {"letra": "F", "precio": null, "stock": null}], "fotos": ["NAV-0022_1"]}, {"codigo": "NAV-0023", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}], "fotos": ["NAV-0023_1"]}, {"codigo": "NAV-0024", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0024_1"]}, {"codigo": "NAV-0025", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0025_1"]}, {"codigo": "NAV-0026", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}, {"letra": "E", "precio": null, "stock": null}], "fotos": ["NAV-0026_1"]}, {"codigo": "NAV-0027", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0027_1"]}, {"codigo": "NAV-0028", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0028_1"]}, {"codigo": "NAV-0029", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}], "fotos": ["NAV-0029_1"]}, {"codigo": "NAV-0030", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0030_1"]}, {"codigo": "NAV-0031", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}], "fotos": ["NAV-0031_1"]}, {"codigo": "NAV-0032", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}, {"letra": "E", "precio": null, "stock": null}], "fotos": ["NAV-0032_1"]}, {"codigo": "NAV-0033", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0033_1"]}, {"codigo": "NAV-0034", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0034_1"]}, {"codigo": "NAV-0035", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0035_1"]}, {"codigo": "NAV-0036", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}], "fotos": ["NAV-0036_1"]}, {"codigo": "NAV-0037", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0037_1"]}, {"codigo": "NAV-0038", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}, {"letra": "E", "precio": null, "stock": null}], "fotos": ["NAV-0038_1"]}, {"codigo": "NAV-0039", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}], "fotos": ["NAV-0039_1"]}, {"codigo": "NAV-0040", "categoria": "Navajas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [{"letra": "A", "precio": null, "stock": null}, {"letra": "B", "precio": null, "stock": null}, {"letra": "C", "precio": null, "stock": null}, {"letra": "D", "precio": null, "stock": null}], "fotos": ["NAV-0040_1"]}, {"codigo": "CCO-CHI-0001", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0001_1"]}, {"codigo": "CCO-CHI-0002", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0002_1"]}, {"codigo": "CCO-CHI-0003", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0003_1"]}, {"codigo": "CCO-CHI-0004", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0004_1"]}, {"codigo": "CCO-CHI-0005", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0005_1"]}, {"codigo": "CCO-CHI-0006", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0006_1"]}, {"codigo": "CCO-CHI-0007", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0007_1"]}, {"codigo": "CCO-CHI-0008", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0008_1"]}, {"codigo": "CCO-CHI-0009", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0009_1"]}, {"codigo": "CCO-CHI-0010", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0010_1"]}, {"codigo": "CCO-CHI-0011", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0011_1"]}, {"codigo": "CCO-CHI-0012", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0012_1"]}, {"codigo": "CCO-CHI-0013", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0013_1"]}, {"codigo": "CCO-CHI-0014", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0014_1"]}, {"codigo": "CCO-CHI-0015", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0015_1"]}, {"codigo": "CCO-CHI-0016", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0016_1"]}, {"codigo": "CCO-CHI-0017", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0017_1"]}, {"codigo": "CCO-CHI-0018", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0018_1"]}, {"codigo": "CCO-CHI-0019", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0019_1"]}, {"codigo": "CCO-CHI-0020", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0020_1"]}, {"codigo": "CCO-CHI-0021", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0021_1"]}, {"codigo": "CCO-CHI-0022", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0022_1"]}, {"codigo": "CCO-CHI-0023", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0023_1"]}, {"codigo": "CCO-CHI-0024", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0024_1"]}, {"codigo": "CCO-CHI-0025", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0025_1"]}, {"codigo": "CCO-CHI-0026", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0026_1"]}, {"codigo": "CCO-CHI-0027", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0027_1"]}, {"codigo": "CCO-CHI-0028", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0028_1"]}, {"codigo": "CCO-CHI-0029", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0029_1"]}, {"codigo": "CCO-CHI-0030", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0030_1"]}, {"codigo": "CCO-CHI-0031", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0031_1"]}, {"codigo": "CCO-CHI-0032", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0032_1"]}, {"codigo": "CCO-CHI-0033", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0033_1"]}, {"codigo": "CCO-CHI-0034", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0034_1"]}, {"codigo": "CCO-CHI-0035", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0035_1"]}, {"codigo": "CCO-CHI-0036", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0036_1"]}, {"codigo": "CCO-CHI-0037", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0037_1"]}, {"codigo": "CCO-CHI-0038", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0038_1"]}, {"codigo": "CCO-CHI-0039", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0039_1"]}, {"codigo": "CCO-CHI-0040", "categoria": "Cuchillos", "sub": "Chicos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-CHI-0040_1"]}, {"codigo": "CCO-MED-0001", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0001_1"]}, {"codigo": "CCO-MED-0002", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0002_1"]}, {"codigo": "CCO-MED-0003", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0003_1"]}, {"codigo": "CCO-MED-0004", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0004_1"]}, {"codigo": "CCO-MED-0005", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0005_1"]}, {"codigo": "CCO-MED-0006", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0006_1"]}, {"codigo": "CCO-MED-0007", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0007_1"]}, {"codigo": "CCO-MED-0008", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0008_1"]}, {"codigo": "CCO-MED-0009", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0009_1"]}, {"codigo": "CCO-MED-0010", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0010_1"]}, {"codigo": "CCO-MED-0011", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0011_1"]}, {"codigo": "CCO-MED-0012", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0012_1"]}, {"codigo": "CCO-MED-0013", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0013_1"]}, {"codigo": "CCO-MED-0014", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0014_1"]}, {"codigo": "CCO-MED-0015", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0015_1"]}, {"codigo": "CCO-MED-0016", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0016_1"]}, {"codigo": "CCO-MED-0017", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0017_1"]}, {"codigo": "CCO-MED-0018", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0018_1"]}, {"codigo": "CCO-MED-0019", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0019_1"]}, {"codigo": "CCO-MED-0020", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0020_1"]}, {"codigo": "CCO-MED-0021", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0021_1"]}, {"codigo": "CCO-MED-0022", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0022_1"]}, {"codigo": "CCO-MED-0023", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0023_1"]}, {"codigo": "CCO-MED-0024", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0024_1"]}, {"codigo": "CCO-MED-0025", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0025_1"]}, {"codigo": "CCO-MED-0026", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0026_1"]}, {"codigo": "CCO-MED-0027", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0027_1"]}, {"codigo": "CCO-MED-0028", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0028_1"]}, {"codigo": "CCO-MED-0029", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0029_1"]}, {"codigo": "CCO-MED-0030", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0030_1"]}, {"codigo": "CCO-MED-0031", "categoria": "Cuchillos", "sub": "Medianos", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-MED-0031_1"]}, {"codigo": "CCO-RAM-0001", "categoria": "Cuchillos", "sub": "Medianos", "linea": "RAM", "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-RAM-0001_1"]}, {"codigo": "CCO-RAM-0002", "categoria": "Cuchillos", "sub": "Medianos", "linea": "RAM", "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-RAM-0002_1"]}, {"codigo": "CCO-RAM-0003", "categoria": "Cuchillos", "sub": "Medianos", "linea": "RAM", "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-RAM-0003_1"]}, {"codigo": "CCO-GDE-0001", "categoria": "Cuchillos", "sub": "Grandes", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-GDE-0001_1"]}, {"codigo": "CCO-GDE-0002", "categoria": "Cuchillos", "sub": "Grandes", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-GDE-0002_1"]}, {"codigo": "CCO-GDE-0003", "categoria": "Cuchillos", "sub": "Grandes", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-GDE-0003_1"]}, {"codigo": "CCO-GDE-0004", "categoria": "Cuchillos", "sub": "Grandes", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-GDE-0004_1"]}, {"codigo": "CCO-GDE-0005", "categoria": "Cuchillos", "sub": "Grandes", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-GDE-0005_1"]}, {"codigo": "CCO-GDE-0006", "categoria": "Cuchillos", "sub": "Grandes", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-GDE-0006_1"]}, {"codigo": "CCO-GDE-0007", "categoria": "Cuchillos", "sub": "Grandes", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-GDE-0007_1"]}, {"codigo": "CCO-GDE-0008", "categoria": "Cuchillos", "sub": "Grandes", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-GDE-0008_1"]}, {"codigo": "CCO-GDE-0009", "categoria": "Cuchillos", "sub": "Grandes", "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-GDE-0009_1"]}, {"codigo": "CCO-RAM-0004", "categoria": "Cuchillos", "sub": "Grandes", "linea": "RAM", "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["CCO-RAM-0004_1"]}, {"codigo": "HAC-0001", "categoria": "Hachas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["HAC-0001_1"]}, {"codigo": "HAC-0002", "categoria": "Hachas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["HAC-0002_1"]}, {"codigo": "HAC-0003", "categoria": "Hachas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["HAC-0003_1"]}, {"codigo": "DAG-0001", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0001_1"]}, {"codigo": "DAG-0003", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0003_1"]}, {"codigo": "DAG-0004", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0004_1"]}, {"codigo": "DAG-0005", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0005_1"]}, {"codigo": "DAG-0006", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0006_1"]}, {"codigo": "DAG-0007", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0007_1"]}, {"codigo": "DAG-0008", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0008_1"]}, {"codigo": "DAG-0010", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0010_1"]}, {"codigo": "DAG-0011", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0011_1"]}, {"codigo": "DAG-0012", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0012_1"]}, {"codigo": "DAG-0013", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0013_1"]}, {"codigo": "DAG-0014", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0014_1"]}, {"codigo": "DAG-0015", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0015_1"]}, {"codigo": "DAG-0016", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0016_1"]}, {"codigo": "DAG-0017", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0017_1"]}, {"codigo": "DAG-0018", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0018_1"]}, {"codigo": "DAG-0019", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0019_1"]}, {"codigo": "DAG-0020", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0020_1"]}, {"codigo": "DAG-0021", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0021_1"]}, {"codigo": "DAG-0022", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0022_1"]}, {"codigo": "DAG-0023", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0023_1"]}, {"codigo": "DAG-0024", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0024_1"]}, {"codigo": "DAG-0025", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0025_1"]}, {"codigo": "DAG-0026", "categoria": "Dagas", "sub": null, "linea": null, "nombre": "", "precio": null, "stock": null, "activo": true, "modelos": [], "fotos": ["DAG-0026_1"]}]};/*DATA_END*/
-</script>
-<script>
-/* Capa de datos del catálogo.
-   Hoy guarda todo en este navegador (localStorage). Todas las funciones son async
-   y devuelven datos con la misma forma que tendrían desde una base de datos,
-   así que más adelante solo hay que reemplazar este archivo por uno que hable con Supabase. */
-(function () {
-  const P = "cat1_";
-  const rd = (k, d) => { try { const v = localStorage.getItem(P + k); return v ? JSON.parse(v) : d; } catch (e) { return d; } };
-  const wr = (k, v) => { try { localStorage.setItem(P + k, JSON.stringify(v)); } catch (e) {} };
-  const seed = window.CATALOGO || { productos: [] };
-  const SB = { url: "https://upnurqibdojtjcsgnyhe.supabase.co", key: "sb_publishable_12AUi0uD3zqvKl59cEheBA_MuOkRHhm" };
-  const DEFAULTS = { titulo: seed.titulo || "Catálogo", whatsapp: seed.whatsapp || "", moneda: seed.moneda || "$",
-                     interes_tarjeta: 0, iva: 21, admin_hash: "" };
-  const norm = p => Object.assign({ activo: true, stock: null, nombre: "", descripcion: "", link_drive: "", precio: null, modelos: [], linea: null, sub: null, extra: [] }, p);
-  // foto: nombre local (img/NOMBRE.webp) o URL completa (subida desde el panel)
-  window.ph = (f, t) => /^https?:/.test(f) ? (t ? f.replace(/\.webp$/, "_t.webp") : f) : "img/" + f + (t ? "_t" : "") + ".webp";
-
-  // ---------- Supabase ----------
-  const H = x => Object.assign({ apikey: SB.key, "Content-Type": "application/json" }, x || {});
-  async function api(path, opt, ms) {
-    const ac = new AbortController(), tm = setTimeout(() => ac.abort(), ms || 15000);
-    try {
-      const r = await fetch(SB.url + path, Object.assign({ signal: ac.signal }, opt));
-      if (!r.ok) { let m = ""; try { m = (await r.json()).message; } catch (e) {} throw new Error(m || ("HTTP " + r.status)); }
-      return r;
-    } finally { clearTimeout(tm); }
-  }
-  async function rpc(fn, args, ms) { const r = await api("/rest/v1/rpc/" + fn, { method: "POST", headers: H(), body: JSON.stringify(args || {}) }, ms); const t = await r.text(); return t ? JSON.parse(t) : null; }
-  const pw = () => { try { return sessionStorage.getItem("cat_pw") || ""; } catch (e) { return ""; } };
-  let initP = null, dbCfg = null;
-  function init() {
-    if (!initP) initP = rpc("config_publica", {}, 8000).then(c => { dbCfg = c || {}; Store.mode = "supabase"; }).catch(() => { Store.mode = "local"; });
-    return initP;
-  }
-  const rowOf = p => ({ codigo: p.codigo, categoria: p.categoria, sub: p.sub, nombre: p.nombre || "", descripcion: p.descripcion || "",
-    precio: p.precio == null || p.precio === "" ? null : p.precio, link_drive: p.link_drive || "",
-    modelos: (p.modelos || []).map(m => ({ letra: m.letra, precio: m.precio == null ? null : m.precio, stock: m.stock == null ? null : m.stock })),
-    fotos: p.extra || [], stock: p.stock == null || p.stock === "" ? null : p.stock, activo: p.activo !== false });
-
-  window.Store = {
-    mode: "local",
-    async getConfig() {
-      await init();
-      if (this.mode === "supabase") {
-        const c = dbCfg || {};
-        return Object.assign({}, DEFAULTS, { whatsapp: c.whatsapp || DEFAULTS.whatsapp, titulo: c.titulo || DEFAULTS.titulo,
-          interes_tarjeta: +c.interes || 0, iva: c.iva != null && c.iva !== "" ? +c.iva : DEFAULTS.iva });
-      }
-      return Object.assign({}, DEFAULTS, rd("config", {}));
-    },
-    async setConfig(patch) {
-      if (this.mode === "supabase") {
-        const map = { whatsapp: "whatsapp", titulo: "titulo", interes_tarjeta: "interes", iva: "iva" };
-        for (const k in patch) if (map[k]) await rpc("admin_set_config", { p: pw(), k: map[k], v: String(patch[k]) });
-        initP = null; await init(); return this.getConfig();
-      }
-      const c = Object.assign(rd("config", {}), patch); wr("config", c); return Object.assign({}, DEFAULTS, c);
-    },
-
-    async getProducts() {
-      await init();
-      if (this.mode === "supabase") {
-        try {
-          const rows = await (await api("/rest/v1/productos?select=*&limit=5000", { headers: H() })).json();
-          const map = new Map(rows.map(r => [r.codigo, r]));
-          return seed.productos.map(p => {
-            const r = map.get(p.codigo); if (!r) return norm(p);
-            const modelos = (p.modelos || []).map(m => { const rm = (r.modelos || []).find(x => x.letra === m.letra); return Object.assign({}, m, rm ? { precio: rm.precio == null ? null : Number(rm.precio), stock: rm.stock == null ? null : Number(rm.stock) } : {}); });
-            const extra = Array.isArray(r.fotos) ? r.fotos : [];
-            return norm(Object.assign({}, p, { nombre: r.nombre || "", descripcion: r.descripcion || "", link_drive: r.link_drive || "",
-              precio: r.precio == null ? null : Number(r.precio), stock: r.stock == null ? null : Number(r.stock), activo: r.activo !== false,
-              modelos, extra, fotos: p.fotos.concat(extra) }));
-          });
-        } catch (e) { /* sin conexión: se muestra lo que trae la página */ }
-        return seed.productos.map(p => norm(p));
-      }
-      const edits = rd("productos", {});
-      return seed.productos.map(p => norm(Object.assign({}, p, edits[p.codigo] || {})));
-    },
-    async saveProduct(p) {
-      if (this.mode === "supabase") { await rpc("admin_upsert_productos", { p: pw(), filas: [rowOf(p)] }); return; }
-      const edits = rd("productos", {});
-      edits[p.codigo] = { nombre: p.nombre, precio: p.precio, stock: p.stock, activo: p.activo, modelos: p.modelos };
-      wr("productos", edits);
-    },
-    async resetProducts() { wr("productos", {}); },
-    async bulkUpsert(rows) { let n = 0; for (let i = 0; i < rows.length; i += 100) n += await rpc("admin_upsert_productos", { p: pw(), filas: rows.slice(i, i + 100) }, 60000); return n; },
-    async syncSeed() {
-      const have = new Set((await (await api("/rest/v1/productos?select=codigo&limit=5000", { headers: H() })).json()).map(r => r.codigo));
-      const rows = seed.productos.map(p => have.has(p.codigo) ? { codigo: p.codigo, categoria: p.categoria, sub: p.sub } : rowOf(norm(p)));
-      await this.bulkUpsert(rows); return rows.filter(r => !have.has(r.codigo)).length;
-    },
-    async uploadPhoto(codigo, blob, name) {
-      const path = "fotos/" + codigo + "/" + name;
-      await api("/storage/v1/object/" + path, { method: "POST", headers: { apikey: SB.key, "Content-Type": "image/webp", "x-upsert": "true" }, body: blob }, 60000);
-      return SB.url + "/storage/v1/object/public/" + path;
-    },
-
-    // Acceso del panel
-    async adminLogin(p) { const ok = await rpc("admin_login", { p }); if (ok) { try { sessionStorage.setItem("cat_pw", p); } catch (e) {} } return !!ok; },
-    async changePassword(nueva) { await rpc("admin_cambiar_clave", { p: pw(), nueva }); try { sessionStorage.setItem("cat_pw", nueva); } catch (e) {} },
-
-    // Pedidos
-    async listPedidos() {
-      if (this.mode === "supabase") {
-        const rows = await rpc("admin_pedidos", { p: pw() }, 30000);
-        return (rows || []).map(r => { const it = r.items || {}; return { id: r.id, nro_orden: r.id, fecha: r.fecha, cliente: r.nombre, detalle: it.detalle || "", nota: it.nota || "", total: Number(r.total), metodo_pago: r.pago || "", estado: "", direccion_entrega: "" }; });
-      }
-      return rd("pedidos", []).slice().sort((a, b) => (b.fecha || "").localeCompare(a.fecha || ""));
-    },
-    async nextOrderNumber() {
-      const d = new Date(), f = d.getFullYear() + String(d.getMonth() + 1).padStart(2, "0") + String(d.getDate()).padStart(2, "0");
-      if (this.mode === "supabase") return "CAT-" + f + "-" + String(Math.floor(Math.random() * 9000) + 1000);
-      const all = rd("pedidos", []);
-      const last = all.length ? Math.max(...all.map(p => parseInt(String(p.nro_orden).split("-").pop()) || 0)) : 0;
-      return "CAT-" + f + "-" + String(last + 1).padStart(4, "0");
-    },
-    async createPedido(ped) {
-      if (this.mode === "supabase") {
-        try {
-          await api("/rest/v1/pedidos", { method: "POST", headers: H({ Prefer: "return=minimal" }),
-            body: JSON.stringify({ id: ped.nro_orden, fecha: ped.fecha, nombre: ped.cliente || "Sin nombre",
-              items: { lineas: ped.items, detalle: ped.detalle, nota: ped.nota || "" }, total: ped.total, pago: ped.metodo_pago }) });
-          return ped;
-        } catch (e) { /* si falla, queda guardado en este navegador */ }
-      }
-      const all = rd("pedidos", []);
-      ped.id = all.length ? Math.max(...all.map(p => Number(p.id) || 0)) + 1 : 1;
-      all.push(ped); wr("pedidos", all);
-      if (this.mode !== "supabase") {
-        const edits = rd("productos", {});
-        const prods = await this.getProducts();
-        for (const it of ped.items) {
-          const p = prods.find(x => x.codigo === it.codigo); if (!p) continue;
-          const m = it.letra ? p.modelos.find(x => x.letra === it.letra) : null;
-          const tgt = m || p;
-          if (tgt.stock == null || tgt.stock === "") continue;
-          tgt.stock = Math.max(0, Number(tgt.stock) - it.qty);
-          edits[p.codigo] = { nombre: p.nombre, precio: p.precio, stock: p.stock, activo: p.activo, modelos: p.modelos };
-        }
-        wr("productos", edits);
-      }
-      return ped;
-    },
-    async updatePedido(id, patch) { if (this.mode === "supabase") return; const all = rd("pedidos", []); const i = all.findIndex(p => String(p.id) === String(id)); if (i >= 0) { Object.assign(all[i], patch); wr("pedidos", all); } },
-    async deletePedido(id) { if (this.mode === "supabase") { await rpc("admin_borrar_pedido", { p: pw(), pid: String(id) }); return; } wr("pedidos", rd("pedidos", []).filter(p => String(p.id) !== String(id))); },
-
-    // Carrito (siempre local, es del visitante)
-    getCart() { return rd("cart", []); },
-    saveCart(c) { wr("cart", c); },
-
-    async sha256(t) {
-      if (!(window.crypto && crypto.subtle)) { let h = 5381; for (const c of t) h = ((h << 5) + h + c.charCodeAt(0)) >>> 0; return "d" + h.toString(16); }
-      const b = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(t));
-      return Array.from(new Uint8Array(b)).map(x => x.toString(16).padStart(2, "0")).join("");
-    }
-  };
-})();
-
-</script>
-<script>
-
-(async function(){
-  if(location.hash==="#admin")return;
-  const $=s=>document.querySelector(s);
-  const has=v=>v!=null&&v!==""; 
-  let CFG=await Store.getConfig();
-  let PRODS=(await Store.getProducts()).filter(p=>p.activo!==false);
-  let cart=Store.getCart();
-  let metodo="transferencia";
-  document.title=CFG.titulo; $("#tit").textContent=CFG.titulo; $("#ftit").textContent=CFG.titulo;
-  const money=v=>CFG.moneda+" "+Number(v).toLocaleString("es-AR");
-  const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-
-  const unitPrice=(p,m)=>has(m&&m.precio)?+m.precio:(has(p.precio)?+p.precio:null);
-  const stockOf=(p,m)=>{const v=m?m.stock:p.stock; return has(v)?+v:null;};
-  const minPrice=p=>{const ps=[has(p.precio)?+p.precio:null,...(p.modelos||[]).map(m=>has(m.precio)?+m.precio:null)].filter(v=>v!=null);return ps.length?Math.min(...ps):null;};
-  const priceText=p=>{const mp=minPrice(p);if(mp==null)return "Consultar precio";return (has(p.precio)||!(p.modelos||[]).length?"":"Desde ")+money(mp);};
-  const soldOut=p=>{const sts=(p.modelos&&p.modelos.length)?p.modelos.map(m=>stockOf(p,m)):[stockOf(p,null)];return sts.length&&sts.every(s=>s!=null&&s<=0);};
-  const label=p=>p.categoria==="Navajas"?"Navaja":p.categoria==="Hachas"?"Hacha":p.categoria==="Dagas"?"Daga":("Cuchillo "+(p.sub||"").toLowerCase());
-
-  // ---------- filtros ----------
-  const GROUPS=[
-    {id:"Navajas",label:"Navajas",test:p=>p.categoria==="Navajas"},
-    {id:"Chicos",label:"Chicos",parent:"Cuchillos",test:p=>p.sub==="Chicos"},
-    {id:"Medianos",label:"Medianos",parent:"Cuchillos",test:p=>p.sub==="Medianos"},
-    {id:"Grandes",label:"Grandes",parent:"Cuchillos",test:p=>p.sub==="Grandes"},
-    {id:"Hachas",label:"Hachas",test:p=>p.categoria==="Hachas"},
-    {id:"Dagas",label:"Dagas",test:p=>p.categoria==="Dagas"},
-  ];
-  let curList=[];
-  const state={on:new Set(),ram:false,conprecio:false,stock:false,q:"",orden:"cod"};
-  function matches(p,skip){
-    const g=GROUPS.find(g=>g.test(p));
-    if(skip!=="cat"&&state.on.size&&!(g&&state.on.has(g.id)))return false;
-    if(skip!=="ram"&&state.ram&&p.linea!=="RAM")return false;
-    if(state.conprecio&&minPrice(p)==null)return false;
-    if(state.stock&&soldOut(p))return false;
-    if(state.q){const q=state.q.toUpperCase();if(!p.codigo.includes(q)&&!(p.nombre||"").toUpperCase().includes(q))return false;}
-    return true;
-  }
-  function renderSide(){
-    const cnt=g=>PRODS.filter(p=>g.test(p)&&matches(p,"cat")).length;
-    const cu=GROUPS.filter(g=>g.parent==="Cuchillos"), cuOn=cu.filter(g=>state.on.has(g.id)).length;
-    $("#cats").innerHTML=
-      `<label class="opt"><input type="checkbox" data-g="Navajas" ${state.on.has("Navajas")?"checked":""}> Navajas <span class="n">${cnt(GROUPS[0])}</span></label>`+
-      `<label class="opt"><input type="checkbox" data-parent="1" ${cuOn===3?"checked":""}> Cuchillos <span class="n">${cu.reduce((a,g)=>a+cnt(g),0)}</span></label>`+
-      cu.map(g=>`<label class="opt sub"><input type="checkbox" data-g="${g.id}" ${state.on.has(g.id)?"checked":""}> ${g.label} <span class="n">${cnt(g)}</span></label>`).join("")+
-      `<label class="opt"><input type="checkbox" data-g="Hachas" ${state.on.has("Hachas")?"checked":""}> Hachas <span class="n">${cnt(GROUPS[4])}</span></label>`+
-      `<label class="opt"><input type="checkbox" data-g="Dagas" ${state.on.has("Dagas")?"checked":""}> Dagas <span class="n">${cnt(GROUPS[5])}</span></label>`;
-    $("#cats input[data-parent]").indeterminate=cuOn>0&&cuOn<3;
-    const nram=PRODS.filter(p=>p.linea==="RAM"&&matches(p,"ram")).length;
-    $("#lineas").innerHTML=`<label class="opt"><input type="checkbox" id="ram" ${state.ram?"checked":""}> Solo ediciones Rambo <span class="n">${nram}</span></label>`;
-    $("#conprecio").checked=state.conprecio; $("#stockonly").checked=state.stock;
-  }
-  function renderGrid(){
-    let list=PRODS.filter(p=>matches(p));
-    if(state.orden!=="cod")list=list.slice().sort((a,b)=>{const x=minPrice(a),y=minPrice(b);
-      if(x==null&&y==null)return a.codigo.localeCompare(b.codigo);if(x==null)return 1;if(y==null)return -1;return state.orden==="pa"?x-y:y-x;});
-    curList=list.map(p=>p.codigo);
-    $("#count").innerHTML="<b>"+list.length+"</b> de "+PRODS.length+" productos";
-    renderTabs();renderPills();
-    $("#empty").hidden=list.length>0;
-    $("#grid").innerHTML=list.map(p=>{const so=soldOut(p),nm=(p.modelos||[]).length,np=(p.fotos||[]).length,pr=minPrice(p);return `
-      <div class="card ${so?"sold":""}" data-c="${p.codigo}" tabindex="0" role="button" aria-label="Ver ${p.codigo}">
-        <div class="badges">${so?'<span class="tag">Sin stock</span>':""}${p.linea?'<span class="tag ram">Rambo</span>':""}${nm>1?`<span class="tag mods">${nm} modelos</span>`:""}</div>
-        ${np>1?`<span class="nph">${np} fotos</span>`:""}
-        <img loading="lazy" src="${ph(p.fotos[0],1)}" alt="${p.codigo}">
-        <div class="b"><div class="code">${p.codigo}</div>
-          <div class="muted">${label(p)}${p.nombre?" · "+esc(p.nombre):""}</div>
-          <div class="price ${pr==null?"ask":""}">${priceText(p)}</div>
-          <span class="more">Ver detalle</span></div></div>`;}).join("");
-    const act=state.on.size+(state.ram?1:0)+(state.conprecio?1:0)+(state.stock?1:0)+(state.q?1:0);
-    $("#fn").textContent=act?"("+act+")":"";
-  }
-
-  function renderTabs(){
-    const tot=PRODS.filter(p=>matches(p,"cat")).length;
-    $("#tabs").innerHTML=`<button class="tab2 ${state.on.size?"":"on"}" data-t="">Todo <small>${tot}</small></button>`+
-      GROUPS.map(g=>`<button class="tab2 ${state.on.has(g.id)?"on":""}" data-t="${g.id}">${g.parent?"Cuchillos "+g.label.toLowerCase():g.label} <small>${PRODS.filter(p=>g.test(p)&&matches(p,"cat")).length}</small></button>`).join("");
-  }
-  function renderPills(){
-    const pl=[];
-    state.on.forEach(id=>pl.push(["cat:"+id,(GROUPS.find(g=>g.id===id)||{}).label||id]));
-    if(state.ram)pl.push(["ram","Rambo"]);
-    if(state.conprecio)pl.push(["precio","Con precio"]);
-    if(state.stock)pl.push(["stock","Con stock"]);
-    if(state.q)pl.push(["q","“"+state.q+"”"]);
-    $("#pills").innerHTML=pl.map(([k,t])=>`<button class="pill" data-k="${k}">${esc(t)} <u>×</u></button>`).join("");
-  }
-  function clearAll(){state.on=new Set();state.ram=state.conprecio=state.stock=false;state.q="";state.orden="cod";$("#q").value="";$("#orden").value="cod";render();}
-  const render=()=>{renderSide();renderGrid();};
-
-  // ---------- detalle ----------
-  const wa=t=>{const n=(CFG.whatsapp||"").replace(/\D/g,"");return (n?"https://wa.me/"+n:"https://wa.me/")+"?text="+encodeURIComponent(t);};
-  function lines(p){return (p.modelos&&p.modelos.length)?p.modelos.map(m=>({m,letra:m.letra,name:"Modelo "+m.letra})):[{m:null,letra:"",name:p.codigo}];}
-  function openDetail(code){
-    const p=PRODS.find(x=>x.codigo===code);if(!p)return;
-    const rows=lines(p).map(l=>{
-      const pr=unitPrice(p,l.m),st=stockOf(p,l.m),out=st!=null&&st<=0;
-      const key=p.codigo+(l.letra?"-"+l.letra:"");
-      return `<div class="mrow"><div class="t"><b>${l.name}</b><span class="muted">${pr!=null?money(pr):"Consultar precio"}${st!=null?(out?" · Sin stock":" · Quedan "+st):""}</span></div>
-        <a class="btn wa" target="_blank" rel="noopener" href="${wa("Hola, me interesa "+key)}">Consultar</a>
-        <button class="btn add" data-add="${key}" ${out?"disabled":""}>${out?"Sin stock":"Agregar"}</button></div>`;}).join("");
-    $("#sheet").innerHTML=`
-      <div class="gal">${p.fotos.map(f=>`<img src="${ph(f)}" alt="${p.codigo}">`).join("")}</div>
-      ${p.fotos.length>1?`<div class="dots" id="dots">${p.fotos.map((f,i)=>`<i class="${i?"":"on"}"></i>`).join("")}</div>`:""}
-      <div class="pad"><div class="row"><div><div class="code" style="font-size:20px">${p.codigo}</div><div class="muted">${label(p)}${p.nombre?" · "+esc(p.nombre):""}</div></div><div class="nav2"><button class="x" id="pv" aria-label="Anterior">‹</button><button class="x" id="nx" aria-label="Siguiente">›</button><button class="x" id="cl">Cerrar</button></div></div>
-        ${p.descripcion?`<div class="desc">${esc(p.descripcion).replace(/\n/g,"<br>")}</div>`:""}
-        ${p.fotos.length>1?`<div class="hint">Deslizá para ver las ${p.fotos.length} fotos →</div>`:""}
-        <div class="mods">${rows}</div>
-        ${(p.modelos&&p.modelos.length)?`<div class="hint">Cada modelo (${p.modelos.map(m=>m.letra).join(", ")}) está identificado en la foto con su letra.</div>`:""}</div>`;
-    $("#ov").classList.add("on");$("#cl").onclick=closeM;curOpen=code;
-    try{history.replaceState(null,"","#p="+encodeURIComponent(code));}catch(e){}
-    const step=d=>{const i=curList.indexOf(code);if(i<0||!curList.length)return;openDetail(curList[(i+d+curList.length)%curList.length]);};
-    $("#pv").onclick=()=>step(-1);$("#nx").onclick=()=>step(1);
-    const gal=$("#sheet .gal"),dots=$("#dots");if(dots)gal.addEventListener("scroll",()=>{const k=Math.round(gal.scrollLeft/gal.clientWidth);dots.querySelectorAll("i").forEach((d,j)=>d.classList.toggle("on",j===k));});
-    $("#sheet").scrollTop=0;
-    $("#sheet").querySelectorAll("[data-add]").forEach(b=>b.onclick=()=>{addToCart(p,b.dataset.add);});
-  }
-  let curOpen=null;
-  const closeM=()=>{$("#ov").classList.remove("on");curOpen=null;if(/^#p=/.test(location.hash)){try{history.replaceState(null,"",location.pathname+location.search);}catch(e){}}};
-
-  // ---------- carrito ----------
-  const toast=t=>{const e=$("#toast");e.textContent=t;e.style.display="block";clearTimeout(toast.t);toast.t=setTimeout(()=>e.style.display="none",2400);};
-  const saveCart=()=>Store.saveCart(cart);
-  function findLine(p,key){return lines(p).find(l=>p.codigo+(l.letra?"-"+l.letra:"")===key);}
-  function addToCart(p,key){
-    const l=findLine(p,key);if(!l)return;
-    const st=stockOf(p,l.m);let it=cart.find(c=>c.key===key);
-    if(st!=null&&(it?it.qty:0)+1>st){toast("No hay más stock de "+key);return;}
-    if(it)it.qty++;else cart.push({key,codigo:p.codigo,letra:l.letra,qty:1});
-    saveCart();renderCart();toast("Agregado: "+key);
-  }
-  function resolve(it){ // datos actuales del producto para cada línea
-    const p=PRODS.find(x=>x.codigo===it.codigo);if(!p)return null;
-    const l=findLine(p,it.key);if(!l)return null;
-    return {p,l,price:unitPrice(p,l.m),stock:stockOf(p,l.m)};
-  }
-  function totals(){
-    let t=0,unp=0;
-    cart.forEach(it=>{const r=resolve(it);if(!r)return;if(r.price==null)unp+=it.qty;else t+=r.price*it.qty;});
-    const i=+CFG.interes_tarjeta||0,iva=+CFG.iva||0,factor=1-i/100-(i/100)*iva/100;
-    return {transf:t,tarjeta:i>0?Math.ceil(t/factor):t,unp};
-  }
-  function renderCart(){
-    cart=cart.filter(it=>resolve(it));
-    const n=cart.reduce((s,c)=>s+c.qty,0);
-    $("#fabn").textContent=n;$("#cbn").textContent=n;$("#fab").style.display=n?"block":"none";
-    const tarj=(+CFG.interes_tarjeta||0)>0;
-    if(!tarj)metodo="transferencia";
-    $("#pay").innerHTML=`<label class="${metodo==="transferencia"?"on":""}"><input type="radio" name="mp" value="transferencia">Transferencia</label>`+(tarj?`<label class="${metodo==="tarjeta"?"on":""}"><input type="radio" name="mp" value="tarjeta">Tarjeta (link de pago)</label>`:"");
-    $("#pay").style.display=tarj?"flex":"none";
-    $("#citems").innerHTML=cart.length?cart.map(it=>{const r=resolve(it);return `<div class="ci"><img src="${ph(r.p.fotos[0],1)}" alt="">
-      <div class="m"><div class="code">${it.key}</div><div class="muted">${label(r.p)}</div>
-        <div class="qty"><button data-q="${it.key}" data-d="-1">−</button><span>${it.qty}</span><button data-q="${it.key}" data-d="1">+</button></div></div>
-      <div class="p">${r.price!=null?money(r.price*it.qty):"A confirmar"}</div><button class="rm" data-rm="${it.key}">×</button></div>`;}).join("")
-      :'<div class="empty">Tu pedido está vacío.</div>';
-    const t=totals();
-    $("#ctot").textContent=money(metodo==="tarjeta"?t.tarjeta:t.transf);
-    $("#cinfo").textContent=(t.unp?t.unp+" producto(s) sin precio: se confirman por WhatsApp. ":"")+(metodo==="tarjeta"?"Incluye recargo de tarjeta.":"");
-    $("#send").disabled=!cart.length;
-  }
-  async function send(){
-    if(!cart.length)return;
-    // validar stock al momento de enviar
-    for(const it of cart){const r=resolve(it);if(r.stock!=null&&it.qty>r.stock){toast("Stock insuficiente de "+it.key+" (quedan "+r.stock+")");it.qty=Math.max(0,r.stock);saveCart();cart=cart.filter(c=>c.qty>0);renderCart();return;}}
-    const t=totals(),total=metodo==="tarjeta"?t.tarjeta:t.transf;
-    const nro=await Store.nextOrderNumber();
-    const items=cart.map(it=>{const r=resolve(it);return {codigo:it.codigo,letra:it.letra,key:it.key,qty:it.qty,precio:r.price};});
-    const detalle=items.map(i=>"• "+i.key+" x"+i.qty+" — "+(i.precio!=null?money(i.precio*i.qty):"a confirmar")).join("\n");
-    const nombre=$("#cname").value.trim(),nota=$("#cnote").value.trim();
-    let msg="¡Hola! Quiero hacer este pedido:\n\n*Orden: "+nro+"*\n"+(nombre?"Nombre: "+nombre+"\n":"")+"\n"+detalle+"\n\n*Total"+(metodo==="tarjeta"?" (tarjeta)":" (transferencia)")+": "+money(total)+"*"+(t.unp?" + "+t.unp+" producto(s) a confirmar":"");
-    msg+="\n\n¿Me confirmás disponibilidad y los pasos para pagar? ¡Gracias!"+(nota?"\n\nNota: "+nota:"");
-    await Store.createPedido({nro_orden:nro,fecha:new Date().toISOString(),items,detalle,total,nota,cliente:nombre,estado:"Pendiente",direccion_entrega:"",metodo_pago:metodo==="tarjeta"?"Tarjeta":"Transferencia"});
-    const a=document.createElement("a");a.href=wa(msg);a.target="_blank";a.rel="noopener";document.body.appendChild(a);a.click();a.remove();
-    cart=[];saveCart();PRODS=(await Store.getProducts()).filter(p=>p.activo!==false);
-    $("#cname").value="";$("#cnote").value="";
-    document.body.classList.remove("copen");render();renderCart();toast("¡Pedido "+nro+" enviado!");
-  }
-
-  // ---------- eventos ----------
-  $("#cats").addEventListener("change",e=>{const t=e.target;
-    if(t.dataset.parent)GROUPS.filter(g=>g.parent).forEach(g=>t.checked?state.on.add(g.id):state.on.delete(g.id));
-    else if(t.dataset.g)t.checked?state.on.add(t.dataset.g):state.on.delete(t.dataset.g);render();});
-  $("#lineas").addEventListener("change",e=>{state.ram=e.target.checked;render();});
-  $("#conprecio").addEventListener("change",e=>{state.conprecio=e.target.checked;render();});
-  $("#stockonly").addEventListener("change",e=>{state.stock=e.target.checked;render();});
-  $("#orden").addEventListener("change",e=>{state.orden=e.target.value;renderGrid();});
-  $("#q").addEventListener("input",e=>{state.q=e.target.value.trim();render();});
-  $("#admtrig").addEventListener("click",()=>{location.hash="#admin";});
-  $("#clear").addEventListener("click",()=>{state.on=new Set();state.ram=state.conprecio=state.stock=false;state.q="";state.orden="cod";$("#q").value="";$("#orden").value="cod";render();});
-  $("#tabs").addEventListener("click",e=>{const b=e.target.closest(".tab2");if(!b)return;const t=b.dataset.t;
-    if(!t)state.on=new Set();else state.on.has(t)?state.on.delete(t):state.on.add(t);render();});
-  $("#pills").addEventListener("click",e=>{const b=e.target.closest(".pill");if(!b)return;const k=b.dataset.k;
-    if(k.startsWith("cat:"))state.on.delete(k.slice(4));else if(k==="ram")state.ram=false;else if(k==="precio")state.conprecio=false;else if(k==="stock")state.stock=false;else if(k==="q"){state.q="";$("#q").value="";}
-    render();});
-  $("#clear2").onclick=clearAll;
-  $("#cbtn").onclick=()=>{closeM();document.body.classList.add("copen");};
-  $("#brand").addEventListener("click",e=>{e.preventDefault();clearAll();window.scrollTo({top:0,behavior:"smooth"});});
-  $("#totop").onclick=()=>window.scrollTo({top:0,behavior:"smooth"});
-  addEventListener("scroll",()=>document.body.classList.toggle("scrolled",scrollY>600),{passive:true});
-  $("#fwa").href=wa("Hola, quiero consultar por el catálogo");
-  $("#grid").addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.classList.contains("card")){e.preventDefault();openDetail(e.target.dataset.c);}});
-  $("#grid").addEventListener("click",e=>{const c=e.target.closest(".card");if(c)openDetail(c.dataset.c);});
-  $("#ov").addEventListener("click",e=>{if(e.target.id==="ov")closeM();});
-  document.addEventListener("keydown",e=>{if(curOpen&&(e.key==="ArrowRight"||e.key==="ArrowLeft")&&!/INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)){$(e.key==="ArrowRight"?"#nx":"#pv").click();}
-    if(e.key==="Escape"){closeM();document.body.classList.remove("fopen","copen");}});
-  $("#fbtn").onclick=()=>document.body.classList.add("fopen");$("#scrim").onclick=$("#aclose").onclick=()=>document.body.classList.remove("fopen");
-  $("#fab").onclick=()=>{closeM();document.body.classList.add("copen");};$("#cclose").onclick=$("#cscrim").onclick=()=>document.body.classList.remove("copen");
-  $("#citems").addEventListener("click",e=>{
-    const q=e.target.dataset.q,rm=e.target.dataset.rm;
-    if(q){const it=cart.find(c=>c.key===q),r=resolve(it),d=+e.target.dataset.d;
-      if(d>0&&r.stock!=null&&it.qty+1>r.stock){toast("No hay más stock");return;}
-      it.qty+=d;if(it.qty<=0)cart=cart.filter(c=>c!==it);saveCart();renderCart();}
-    if(rm){cart=cart.filter(c=>c.key!==rm);saveCart();renderCart();}});
-  $("#pay").addEventListener("change",e=>{metodo=e.target.value;renderCart();});
-  $("#cempty").onclick=()=>{cart=[];saveCart();renderCart();};
-  $("#send").onclick=send;
-  $("#clear").onclick=null;
-  render();renderCart();
-  {const m=location.hash.match(/^#p=(.+)$/);if(m)openDetail(decodeURIComponent(m[1]));}
-})();
-
-</script>
-<script>
-
-(async function(){
-  if(location.hash!=="#admin")return;
-  const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
-  const has=v=>v!=null&&v!=="";
-  const esc=s=>String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-  let CFG=await Store.getConfig(), PRODS=[], PEDS=[];
-  const num=v=>v===""||v==null?null:Number(v);
-
-  // ---------- acceso ----------
-  async function gate(){
-    CFG=await Store.getConfig();
-    const SBM=Store.mode==="supabase";
-    if(sessionStorage.getItem("cat_adm")==="1"&&(!SBM||sessionStorage.getItem("cat_pw"))){start();return;}
-    $("#login").style.display="grid";
-    const first=!SBM&&!CFG.admin_hash;
-    $("#lt").textContent=first?"Creá tu contraseña":"Ingresar";
-    $("#ls").textContent=first?"Es la primera vez: elegí una contraseña para el panel (mín. 6 caracteres).":"";
-    $("#lpw2").style.display=first?"block":"none";
-    $("#lgo").onclick=async()=>{
-      const p=$("#lpw").value;$("#lerr").textContent="";
-      if(first){
-        if(p.length<6){$("#lerr").textContent="Mínimo 6 caracteres";return;}
-        if(p!==$("#lpw2").value){$("#lerr").textContent="Las contraseñas no coinciden";return;}
-        await Store.setConfig({admin_hash:await Store.sha256(p)});
-      }else if(SBM){
-        let ok=false;try{ok=await Store.adminLogin(p);}catch(e){$("#lerr").textContent="No se pudo conectar: "+e.message;return;}
-        if(!ok){$("#lerr").textContent="Contraseña incorrecta";return;}
-      }else if(await Store.sha256(p)!==CFG.admin_hash){$("#lerr").textContent="Contraseña incorrecta";return;}
-      sessionStorage.setItem("cat_adm","1");$("#login").style.display="none";start();
-    };
-    $("#lpw").onkeydown=e=>{if(e.key==="Enter")$("#lgo").click();};
-  }
-  $("#logout").onclick=()=>{sessionStorage.removeItem("cat_adm");location.reload();};
-
-  async function start(){
-    $("#app").style.display="block";
-    const SBM=Store.mode==="supabase";
-    $("#modeinfo").innerHTML=SBM?"🟢 Conectado a Supabase: los cambios los ven todos los visitantes.":"🟠 Sin conexión a Supabase: los cambios quedan solo en este navegador.";
-    $("#syncsb").style.display=SBM?"":"none";$("#c-reset").parentElement.style.display=SBM?"none":"";
-    if(SBM)$("#pest").style.display="none";
-    PRODS=await Store.getProducts();
-    $("#c-wa").value=CFG.whatsapp||"";$("#c-tit").value=CFG.titulo||"";$("#c-int").value=CFG.interes_tarjeta;$("#c-iva").value=CFG.iva;
-    renderProds();await loadPeds();
-  }
-  $$(".tab").forEach(t=>t.onclick=()=>{$$(".tab").forEach(x=>x.classList.toggle("on",x===t));$$(".pane").forEach(p=>p.classList.toggle("on",p.id==="p-"+t.dataset.t));});
-
-  // ---------- productos ----------
-  const flash=(id="#sv")=>{const e=$(id);e.classList.add("on");clearTimeout(flash.t);flash.t=setTimeout(()=>e.classList.remove("on"),1100);};
-  const catOf=p=>p.sub||p.categoria;
-  function renderProds(){
-    const q=$("#aq").value.trim().toUpperCase(),c=$("#acat").value,sin=$("#asin").checked;
-    const list=PRODS.filter(p=>(!q||p.codigo.includes(q)||(p.nombre||"").toUpperCase().includes(q))&&(!c||catOf(p)===c)&&(!sin||(!has(p.precio)&&!(p.modelos||[]).some(m=>has(m.precio)))));
-    $("#acount").textContent=list.length+" de "+PRODS.length;
-    $("#ptb").innerHTML=list.map(p=>`<tr data-c="${p.codigo}" class="${p.activo===false?"off":""}">
-      <td><img loading="lazy" src="${ph(p.fotos[0],1)}" alt=""></td>
-      <td><b>${p.codigo}</b>${p.linea?' <span class="badge b-t">Rambo</span>':""}</td><td>${catOf(p)}</td>
-      <td><input class="nm" data-f="nombre" value="${esc(p.nombre)}" placeholder="Nombre / modelo"></td>
-      <td><textarea class="ds" data-f="descripcion" placeholder="Descripción">${esc(p.descripcion)}</textarea></td>
-      <td><input type="number" min="0" data-f="precio" value="${p.precio??""}" placeholder="Consultar"></td>
-      <td>${(p.modelos||[]).length?'<span class="note">por modelo →</span>':`<input type="number" min="0" data-f="stock" value="${p.stock??""}" placeholder="s/control">`}</td>
-      <td><input type="checkbox" data-f="activo" ${p.activo!==false?"checked":""}></td>
-      <td>${(p.modelos||[]).map(m=>`<div class="mini"><b>${m.letra}</b><input type="number" min="0" data-m="${m.letra}" data-mf="precio" value="${m.precio??""}" placeholder="precio"><input type="number" min="0" data-m="${m.letra}" data-mf="stock" value="${m.stock??""}" placeholder="stock"></div>`).join("")}</td>
-      <td><input data-f="link_drive" value="${esc(p.link_drive)}" placeholder="https://drive.google.com/…" style="width:170px"></td>
-      <td><div class="phs">${(p.extra||[]).map((u,i)=>`<span class="ph"><img src="${ph(u,1)}" alt=""><b data-rmph="${i}">×</b></span>`).join("")}<button class="btn g" data-addph="1">+ Fotos</button></div></td></tr>`).join("");
-  }
-  $("#ptb").addEventListener("change",async e=>{
-    const tr=e.target.closest("tr");if(!tr)return;
-    const p=PRODS.find(x=>x.codigo===tr.dataset.c);const f=e.target.dataset.f;
-    if(f){p[f]=f==="activo"?e.target.checked:(["nombre","descripcion","link_drive"].includes(f)?e.target.value.trim():num(e.target.value));if(f==="activo")tr.classList.toggle("off",!p.activo);}
-    else if(e.target.dataset.m){const m=p.modelos.find(x=>x.letra===e.target.dataset.m);m[e.target.dataset.mf]=num(e.target.value);}
-    try{await Store.saveProduct(p);flash();}catch(err){alert("No se pudo guardar: "+err.message);}
+const $=id=>document.getElementById(id);
+const base=c=>encodeURIComponent(c.carpeta);
+function norm(s){return s.toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"")}
+function render(){
+  const t=norm($("q").value.trim());
+  const list=CATALOGO.filter(c=>!t||norm(c.titulo+" "+c.id).includes(t));
+  $("count").textContent=list.length+" modelos";
+  $("grid").innerHTML=list.length?"":'<div class="empty">No hay modelos con esa búsqueda.</div>';
+  list.forEach(c=>{
+    const b=document.createElement("button");b.className="card";
+    b.innerHTML=`<div class="ph"><img loading="lazy" alt="${c.titulo}" src="mini/${base(c)}/${c.fotos[0]}.webp"><span class="n">${c.fotos.length} fotos</span></div><div class="b"><div class="code">${c.titulo}</div><div class="muted">Modelo ${c.id}</div></div>`;
+    b.onclick=()=>open(c);$("grid").appendChild(b);
   });
-  // fotos extra
-  let phCode=null;
-  async function toWebp(file,max,q){const b=await createImageBitmap(file,{imageOrientation:"from-image"});const k=Math.min(1,max/Math.max(b.width,b.height));
-    const c=document.createElement("canvas");c.width=Math.round(b.width*k);c.height=Math.round(b.height*k);c.getContext("2d").drawImage(b,0,0,c.width,c.height);
-    return new Promise(r=>c.toBlob(r,"image/webp",q));}
-  $("#ptb").addEventListener("click",async e=>{
-    const tr=e.target.closest("tr");if(!tr)return;const p=PRODS.find(x=>x.codigo===tr.dataset.c);
-    if(e.target.dataset.addph){phCode=p.codigo;$("#phfile").value="";$("#phfile").click();}
-    else if(e.target.dataset.rmph!==undefined){if(!confirm("¿Quitar esta foto del producto?"))return;
-      p.extra.splice(+e.target.dataset.rmph,1);p.fotos=p.fotos.filter(f=>!/^https?:/.test(f)).concat(p.extra);
-      try{await Store.saveProduct(p);flash();renderProds();}catch(err){alert("No se pudo guardar: "+err.message);}}
-  });
-  $("#phfile").addEventListener("change",async e=>{
-    const p=PRODS.find(x=>x.codigo===phCode);if(!p||!e.target.files.length)return;
-    if(Store.mode!=="supabase"){alert("Subir fotos requiere conexión con Supabase.");return;}
-    $("#sv").textContent="subiendo…";$("#sv").classList.add("on");
-    try{for(const f of e.target.files){
-      const id=Date.now().toString(36)+Math.random().toString(36).slice(2,5);
-      const big=await Store.uploadPhoto(p.codigo,await toWebp(f,1400,.74),id+".webp");
-      await Store.uploadPhoto(p.codigo,await toWebp(f,560,.72),id+"_t.webp");
-      p.extra.push(big);}
-      p.fotos=p.fotos.filter(f=>!/^https?:/.test(f)).concat(p.extra);
-      await Store.saveProduct(p);renderProds();
-    }catch(err){alert("No se pudo subir: "+err.message);}
-    $("#sv").textContent="✓ guardado";flash();
-  });
-  $("#syncsb").onclick=async()=>{if(!confirm("Carga en Supabase los productos que todavía no estén (no pisa lo ya editado). ¿Seguir?"))return;
-    try{const n=await Store.syncSeed();PRODS=await Store.getProducts();renderProds();alert("Listo: "+n+" productos nuevos cargados.");}catch(err){alert("Error: "+err.message);}};
-
-  // carga masiva CSV
-  let CSVROWS=[];
-  function parseCSV(t){t=t.replace(/^\uFEFF/,"");const first=t.split(/\r?\n/)[0];const d=first.split(";").length>first.split(",").length?";":(first.includes("\t")?"\t":",");
-    const rows=[];let r=[],c="",q=false;
-    for(let i=0;i<t.length;i++){const ch=t[i];
-      if(q){if(ch==='"'){if(t[i+1]==='"'){c+='"';i++;}else q=false;}else c+=ch;}
-      else if(ch==='"')q=true;else if(ch===d){r.push(c);c="";}else if(ch==="\n"){r.push(c);rows.push(r);r=[];c="";}else if(ch!=="\r")c+=ch;}
-    if(c!==""||r.length){r.push(c);rows.push(r);}
-    return rows.filter(r=>r.some(x=>x.trim()!==""));}
-  function parsePrice(v){let x=String(v||"").replace(/[^\d,.-]/g,"");if(!x)return null;
-    if(x.includes(","))x=x.replace(/\./g,"").replace(",",".");else if((x.match(/\./g)||[]).length>1)x=x.replace(/\./g,"");
-    const n=parseFloat(x);return isNaN(n)?null:n;}
-  $("#csvopen").onclick=()=>{$("#csvov").classList.add("on");};
-  $("#csvx").onclick=()=>{$("#csvov").classList.remove("on");};
-  $("#csvtpl").onclick=()=>{const q=v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"';
-    dl("plantilla_productos.csv","\uFEFFcodigo,descripcion,precio,link_drive\n"+PRODS.map(p=>[p.codigo,p.descripcion,p.precio,p.link_drive].map(q).join(",")).join("\n"),"text/csv");};
-  $("#csvfile").onchange=async e=>{
-    const f=e.target.files[0];if(!f)return;const rows=parseCSV(await f.text());
-    const head=rows.shift().map(h=>h.trim().toLowerCase().replace("descripción","descripcion").replace(/^(link|drive|link drive)$/,"link_drive"));
-    const ix=n=>head.indexOf(n);
-    if(ix("codigo")<0){$("#csvmsg").textContent="Falta la columna codigo";return;}
-    const known=new Set(PRODS.map(p=>p.codigo));
-    CSVROWS=rows.map(r=>{const o={codigo:(r[ix("codigo")]||"").trim().toUpperCase()};
-      const d=ix("descripcion")>=0?(r[ix("descripcion")]||"").trim():"";if(d)o.descripcion=d;
-      const nm=ix("nombre")>=0?(r[ix("nombre")]||"").trim():"";if(nm)o.nombre=nm;
-      const l=ix("link_drive")>=0?(r[ix("link_drive")]||"").trim():"";if(l)o.link_drive=l;
-      if(ix("precio")>=0){const pr=parsePrice(r[ix("precio")]);if(pr!=null)o.precio=pr;}
-      o.ok=known.has(o.codigo);return o;});
-    const ok=CSVROWS.filter(r=>r.ok);
-    $("#csvprev").innerHTML="<thead><tr><th>Código</th><th>Descripción</th><th>Precio</th><th>Link Drive</th><th></th></tr></thead><tbody>"+
-      CSVROWS.slice(0,300).map(r=>`<tr class="${r.ok?"":"skip"}"><td>${esc(r.codigo)}</td><td>${esc(r.descripcion||"")}</td><td>${r.precio??""}</td><td>${esc(r.link_drive||"")}</td><td>${r.ok?"":"código no existe"}</td></tr>`).join("")+"</tbody>";
-    $("#csvmsg").textContent=ok.length+" productos a actualizar"+(CSVROWS.length>ok.length?" · "+(CSVROWS.length-ok.length)+" ignorados":"");
-    $("#csvgo").disabled=!ok.length;};
-  $("#csvgo").onclick=async()=>{const rows=CSVROWS.filter(r=>r.ok).map(r=>{const o=Object.assign({},r);delete o.ok;return o;});
-    if(Store.mode!=="supabase"){alert("La carga masiva necesita conexión con Supabase.");return;}
-    $("#csvgo").disabled=true;$("#csvmsg").textContent="Importando…";
-    try{const n=await Store.bulkUpsert(rows);PRODS=await Store.getProducts();renderProds();$("#csvmsg").textContent="✓ "+n+" productos actualizados";}
-    catch(err){$("#csvmsg").textContent="Error: "+err.message;$("#csvgo").disabled=false;}};
-  ["#aq","#acat","#asin"].forEach(s=>$(s).addEventListener("input",renderProds));
-  $("#expjs").onclick=()=>{
-    const o={};PRODS.forEach(p=>{o[p.codigo]={nombre:p.nombre,precio:p.precio,stock:p.stock,activo:p.activo,modelos:(p.modelos||[]).map(m=>({letra:m.letra,precio:m.precio,stock:m.stock}))};});
-    dl("precios.json",JSON.stringify({whatsapp:CFG.whatsapp,titulo:CFG.titulo,productos:o},null,1),"application/json");};
-  $("#gocat").onclick=e=>{e.preventDefault();history.replaceState(null,"",location.pathname+location.search);location.reload();};
-
-  // ---------- pedidos ----------
-  const ESTADOS=["Pendiente","Confirmado","En preparación","Enviado","Entregado","Cancelado"];
-  $("#pest").innerHTML+=ESTADOS.map(e=>`<option>${e}</option>`).join("");
-  async function loadPeds(){try{PEDS=await Store.listPedidos();}catch(err){PEDS=[];}$("#pcount").textContent=PEDS.length?"("+PEDS.length+")":"";renderPeds();}
-  function renderPeds(){
-    const f=$("#pest").value,list=PEDS.filter(p=>!f||p.estado===f);
-    $("#pcnt").textContent=list.length+" pedido"+(list.length!==1?"s":"");
-    $("#ptb2").innerHTML=list.map(p=>`<tr data-id="${p.id}"><td><b>${esc(p.nro_orden)}</b>${p.cliente?'<div class="note" style="margin:0">'+esc(p.cliente)+"</div>":""}</td>
-      <td style="white-space:nowrap">${p.fecha?new Date(p.fecha).toLocaleString("es-AR"):""}</td>
-      <td><pre>${esc(p.detalle)}</pre>${p.nota?'<div class="note" style="margin:4px 0 0">Nota: '+esc(p.nota)+"</div>":""}</td>
-      <td style="white-space:nowrap">${CFG.moneda} ${Number(p.total||0).toLocaleString("es-AR")}</td>
-      <td><span class="badge ${p.metodo_pago==="Tarjeta"?"b-t":"b-s"}">${esc(p.metodo_pago)}</span></td>
-      ${Store.mode==="supabase"?'<td class="note">—</td><td class="note">—</td>':`<td><select data-f="estado">${ESTADOS.map(s=>`<option ${p.estado===s?"selected":""}>${s}</option>`).join("")}</select></td>
-      <td><input data-f="direccion_entrega" value="${esc(p.direccion_entrega)}" placeholder="Dirección…" style="width:170px"></td>`}
-      <td><button class="btn d" data-del="1">Borrar</button></td></tr>`).join("")||'<tr><td colspan="8" class="note" style="padding:22px">Todavía no hay pedidos.</td></tr>';
-  }
-  $("#pest").addEventListener("input",renderPeds);
-  $("#ptb2").addEventListener("change",async e=>{const tr=e.target.closest("tr"),f=e.target.dataset.f;if(!tr||!f)return;
-    await Store.updatePedido(tr.dataset.id,{[f]:e.target.value});PEDS=await Store.listPedidos();});
-  $("#ptb2").addEventListener("click",async e=>{if(!e.target.dataset.del)return;const id=e.target.closest("tr").dataset.id;
-    if(!confirm("¿Borrar este pedido? No se puede deshacer."))return;try{await Store.deletePedido(id);await loadPeds();}catch(err){alert("Error: "+err.message);}});
-  $("#expcsv").onclick=()=>{
-    const q=v=>'"'+String(v==null?"":v).replace(/"/g,'""')+'"';
-    const rows=[["orden","fecha","cliente","detalle","total","pago","estado","direccion","nota"].join(",")].concat(PEDS.map(p=>[p.nro_orden,p.fecha,p.cliente,p.detalle,p.total,p.metodo_pago,p.estado,p.direccion_entrega,p.nota].map(q).join(",")));
-    dl("pedidos.csv","﻿"+rows.join("\n"),"text/csv");};
-
-  // ---------- configuración ----------
-  $("#c-save").onclick=async()=>{try{CFG=await Store.setConfig({whatsapp:$("#c-wa").value.replace(/\D/g,""),titulo:$("#c-tit").value.trim()||"Catálogo",interes_tarjeta:+$("#c-int").value||0,iva:+$("#c-iva").value||0});flash("#c-sv");}catch(err){alert("Error: "+err.message);}};
-  $("#c-pwsave").onclick=async()=>{const p=$("#c-pw").value;if(p.length<6){$("#c-pwerr").textContent="Mínimo 6 caracteres";return;}
-    try{if(Store.mode==="supabase")await Store.changePassword(p);else await Store.setConfig({admin_hash:await Store.sha256(p)});$("#c-pw").value="";$("#c-pwerr").textContent="Contraseña cambiada ✓";}
-    catch(err){$("#c-pwerr").textContent="Error: "+err.message;}};
-  $("#c-reset").onclick=async()=>{if(!confirm("Se pierden los precios, nombres y stock cargados en este navegador. ¿Seguro?"))return;await Store.resetProducts();PRODS=await Store.getProducts();renderProds();};
-
-  function dl(name,text,type){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;a.click();}
-  gate();
-})();
-
+}
+function open(c){
+  $("mt").textContent=c.titulo;
+  $("gal").innerHTML=c.fotos.map(f=>`<img loading="lazy" alt="${c.titulo}" src="fotos/${base(c)}/${f}.jpg">`).join("");
+  $("thumbs").innerHTML=c.fotos.map((f,i)=>`<img alt="Foto ${i+1}" data-i="${i}" src="mini/${base(c)}/${f}.webp">`).join("");
+  $("gal").scrollLeft=0;mark(0,c.fotos.length);
+  $("ov").classList.add("on");document.body.style.overflow="hidden";
+}
+function mark(i,n){
+  $("pos").textContent=(i+1)+" de "+n;
+  [...$("thumbs").children].forEach((t,k)=>t.classList.toggle("on",k===i));
+}
+$("gal").addEventListener("scroll",()=>{
+  const g=$("gal"),n=g.children.length;mark(Math.round(g.scrollLeft/g.clientWidth),n);
+});
+$("thumbs").addEventListener("click",e=>{
+  const i=e.target.dataset.i;if(i==null)return;
+  $("gal").scrollTo({left:i*$("gal").clientWidth,behavior:"smooth"});
+});
+function closeM(){$("ov").classList.remove("on");document.body.style.overflow=""}
+$("close").onclick=closeM;
+$("ov").onclick=e=>{if(e.target===$("ov"))closeM()};
+document.addEventListener("keydown",e=>{
+  if(!$("ov").classList.contains("on"))return;
+  if(e.key==="Escape")closeM();
+  const g=$("gal");
+  if(e.key==="ArrowRight")g.scrollBy({left:g.clientWidth,behavior:"smooth"});
+  if(e.key==="ArrowLeft")g.scrollBy({left:-g.clientWidth,behavior:"smooth"});
+});
+$("q").addEventListener("input",render);
+render();
 </script>
-<script>window.addEventListener("hashchange",function(){location.reload();});</script>
 </body>
 </html>
