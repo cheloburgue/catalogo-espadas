@@ -35,10 +35,10 @@ const CATALOGO=[
   "titulo": "Espada vaina cuero cruz marrón",
   "carpeta": "04_Espada_vaina_cuero_cruz_marron",
   "fotos": [
-   "IMG_5966",
    "IMG_5967",
-   "IMG_5968",
-   "IMG_5969"
+   "IMG_5969",
+   "Recorte_122649",
+   "Recorte_122817"
   ]
  },
  {
@@ -56,7 +56,6 @@ const CATALOGO=[
   "titulo": "Espada Scorpion medieval",
   "carpeta": "06_Espada_Scorpion_medieval",
   "fotos": [
-   "IMG_5975",
    "IMG_5976",
    "IMG_5977",
    "IMG_5978"
@@ -103,8 +102,7 @@ const CATALOGO=[
   "fotos": [
    "IMG_5992",
    "IMG_5993",
-   "IMG_5994",
-   "IMG_5995"
+   "IMG_5994"
   ]
  },
  {
@@ -122,8 +120,8 @@ const CATALOGO=[
   "titulo": "Dao chino vaina negra dorada",
   "carpeta": "12_Dao_chino_vaina_negra_dorada",
   "fotos": [
-   "IMG_5999",
-   "IMG_6001"
+   "Recorte_123242",
+   "Recorte_123314"
   ]
  },
  {
@@ -135,7 +133,7 @@ const CATALOGO=[
    "IMG_6003",
    "IMG_6004",
    "IMG_6005",
-   "IMG_6006"
+   "Recorte_123452"
   ]
  },
  {
@@ -156,8 +154,8 @@ const CATALOGO=[
    "IMG_6053",
    "IMG_6054",
    "IMG_6055",
-   "IMG_6056",
-   "IMG_6057"
+   "IMG_6057",
+   "Recorte_123645"
   ]
  },
  {
@@ -167,7 +165,7 @@ const CATALOGO=[
   "fotos": [
    "IMG_6058",
    "IMG_6059",
-   "IMG_6060"
+   "Recorte_123756"
   ]
  },
  {
@@ -177,8 +175,8 @@ const CATALOGO=[
   "fotos": [
    "IMG_6061",
    "IMG_6062",
-   "IMG_6063",
-   "IMG_6064"
+   "Recorte_123910",
+   "Recorte_123948"
   ]
  },
  {
@@ -219,7 +217,6 @@ const CATALOGO=[
   "carpeta": "21_Hacha_doble_filo_negra",
   "fotos": [
    "IMG_6076",
-   "IMG_6077",
    "IMG_6078",
    "IMG_6079"
   ]
@@ -229,11 +226,11 @@ const CATALOGO=[
   "titulo": "Espada vaina verde oliva",
   "carpeta": "22_Espada_vaina_verde_oliva",
   "fotos": [
-   "IMG_6080",
    "IMG_6081",
    "IMG_6082",
    "IMG_6083",
-   "IMG_6084"
+   "IMG_6084",
+   "Recorte_124351"
   ]
  },
  {
@@ -270,8 +267,7 @@ const CATALOGO=[
    "IMG_6097",
    "IMG_6098",
    "IMG_6099",
-   "IMG_6100",
-   "IMG_6101"
+   "Recorte_124506"
   ]
  },
  {
@@ -293,8 +289,6 @@ const CATALOGO=[
   "titulo": "Set 3 katanas con soporte",
   "carpeta": "27_Set_3_katanas_con_soporte",
   "fotos": [
-   "IMG_6111",
-   "IMG_6112",
    "IMG_6113",
    "IMG_6114"
   ]
